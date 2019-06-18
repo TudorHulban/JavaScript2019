@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div id="mainDiv"></div>
+    <span id="space" style="display: none;"><br/></span>
+
+    <span id="spanCombo" style="display: none;"><select id="combo1"></select></span>
+
+    <script>
+        "use strict";
+
+        let app = myApp;
+        console.dir(app);
+
+        app.loadAsset('http://127.0.0.1:8080/fruits.json', "combo1", "spanCombo");
+        //{"fruits":[{"item":"Banana"},{"item":"Kiwi"},{"item":"Mango"},{"item":"Orange"}]}
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* exercise X */
+        "use strict"
+        document.addEventListener('DOMContentLoaded', init);
+
+        function isNumber(a) {
+            return (typeof (a) === "number" ? "is number" : "not number");
+        }
+
+        function init() {
+            console.log(isNumber(4));
+            console.log(isNumber("4"));
+        };
+    </script>
+</body>
+
+</html>

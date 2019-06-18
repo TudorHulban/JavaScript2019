@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="tudi">
+    <meta name="description" content="responsive website template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <title>Italian Job</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    <section class="hero">
+        <header>
+            <nav>
+                <ul>
+                    <li class="navi"><a href="#">Servers</a></li>
+                    <li class="navi"><a href="#">IPs</a></li>
+                    <li class="navi"><a href="#">DNS</a></li>
+                    <li class="navi"><a href="#">Containers</a></li>
+                    <li class="navi"><a href="#">Trainings</a></li>
+                    <li class="navi"><a href="#">Customers</a></li>
+                    <li class="navi"><a href="#">Settings</a></li>
+                    <li class="item-last"><a href="#" class="navi btn__login">Login</a><img class="menu" src="assets/menu_open.png">
+
+                        <ul class="menu-sub visible-not">
+                            <li class="menu-sub-item">Servers</li>
+                            <li class="menu-sub-item">IPs</li>
+                            <li class="menu-sub-item">DNS</li>
+                            <li class="menu-sub-item">Containers</li>
+                            <li class="menu-sub-item">Trainings</li>
+                            <li class="menu-sub-item">Customers</li>
+                            <li class="menu-sub-item">Settings</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    </section>
+
+    <section class="search">
+        <ul>
+            <li><input type="text" id="search" name="search" placeholder="What are you looking for?" autocomplete="off" /></li>
+            <li><img src="../assets/advanced_search_inactive.png"></li>
+        </ul>
+    </section>
+
+    <section class="advanced-search">
+        <span class="arrow"></span>
+        <div id="timestamp" class="timestamp">
+            <ul>
+                <li><label for="searchFrom">From:</label><input type="date" id="searchFrom" name="search" placeholder="From" autocomplete="off" /></li>
+                <li><label for="searchTo">To:</label><input type="date" id="searchTo" name="search" placeholder="To" autocomplete="off" /></li>
+            </ul>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="copyrights">
+            Copyright © 2018 <a href="http://taraworks.eu" target="_blank" class="">taraworks.eu</a>. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        var menuState = false;
+        document.addEventListener('DOMContentLoaded', init);
+
+        function showMobileMenu(pToggle) {
+            elSubMenu = document.getElementsByClassName('menu-sub')[0];
+            pToggle ? elSubMenu.classList.toggle('visible-not') : elSubMenu.classList.add('visible-not');
+        };
+
+        function manageMenuIcon(pToggle) {
+            elMenuIcon = document.getElementsByClassName('menu')[0];
+            elMenuIcon.src = menuState ? "assets/menu_open.png" : "assets/menu_close.png";
+            menuState = !menuState;
+        };
+
+        function toggleMobileNav() {
+            showMobileMenu(true);
+            manageMenuIcon(true);
+        };
+
+        function toggleAdvancedSearch() {
+            elTimestamp = document.getElementById('timestamp');
+            elTimestamp.classList.toggle('timestamp');
+        };
+
+        function actionSearch() {
+            console.log("xx");
+        };
+
+        function init() {
+            window.addEventListener('resize', e => {
+                showMobileMenu(false);
+                if (menuState) {
+                    manageMenuIcon(false)
+                };
+            });
+
+            elImage = document.getElementsByTagName('img')[1];
+            elImage.addEventListener('mouseover', toggleAdvancedSearch, true);
+            elImage.addEventListener('click', actionSearch, true);
+
+            elMenu = document.getElementsByClassName('menu')[0];
+            elMenu.addEventListener('click', toggleMobileNav, true);
+        };
+    </script>
+</body>
+
+</html>

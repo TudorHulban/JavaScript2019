@@ -1,0 +1,32 @@
+//theme colors - http://paletton.com/#uid=44o0s0knkt200++7KJhADkFZU0n
+:root {
+    --header__bg--color: #d3e33e;
+    --nav__bg--color: #e7d33f;
+    --main__bg--color: #e7ba3f;
+    --footer__bg--color: #b5a4d2;
+
+    --header__text--color: #030300;
+    --nav__text--color: #030300;
+    --main__text--color: #2f0970;
+    --footer__text--color: #b5a4d2;
+
+    --tablet__size: 600px;
+    --column1__size: 30;
+}
+
+//layout
+$nav__columns: 1;
+
+$hostname-column: 150px;
+$ip-column: 100px;
+$created-column: 130px;
+$lastupdated-column: 150px;
+$status-column: 130px;
+
+//mirrors css variable
+$tablet__size: 600px;
+
+$breakpoint-phone: 400px;
+$breakpoint-tabletlandscape: 700px;
+$breakpoint-desktop: 1030px;
+$breakpoint-hd: 1200px;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+
+<body>
+    <script>
+        'use strict';
+
+        const bURL = "http://localhost:3000/"
+
+        const req = async (pURL, pToken = "", pMethod = "GET") => {
+            const response = await fetch(bURL + pURL, {
+                method: pMethod,
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${pToken}`
+                }
+            });
+            const json = await response.json();
+            return (pMethod == "GET" ? json : json.token)
+        };
+
+        const token = async (pUser, pPassword) => {
+            const bodyFormData = new FormData();
+            bodyFormData.set("username", pUser);
+            bodyFormData.set("password", pPassword);
+
+            const response = await fetch(bURL + "login", {
+                method: "POST",
+                body: bodyFormData
+            });
+            const json = await response.json();
+            return json.token;
+        };
+
+        function fToken(pUser, pPassword) {
+            let result = "";
+
+            token(pUser, pPassword).then(t => {
+                console.log(window.performance.now(), " t1: ", t);
+                result = t;
+                console.log(window.performance.now(), " t3: ", result);
+            });
+            console.log(window.performance.now(), " t4: ", result);
+            return result;
+        }
+
+        req("j").then(j => console.log("JSON: ", j));
+        req("login", "", "POST").then(token => {
+            console.log("token: ", token)
+            req("a", token).then(r => console.log("JSON: ", r))
+        });
+
+        console.log(window.performance.now(), " function:", fToken("x", "y"));
+        token("x", "y").then(t => console.log("t2:", t));
+    </script>
+</body>
+
+</html>

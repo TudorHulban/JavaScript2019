@@ -1,0 +1,59 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    background: #d1c096;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.pager {
+    height: 1.7em;
+    line-height: 1.8;
+
+    margin-right: 0.5em;
+    padding: 2px 5px 2px 3px;
+
+    text-align: center;
+    background: #5e837e;
+    color: #fff;
+    font-weight: 600;
+}
+
+.pager-item {
+    display: inline-block;
+    width: 1.9em;
+    cursor: pointer;
+}
+
+.pager-previous,
+.pager-next,
+.pager-first,
+.pager-last {
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.pager-interim {
+    width: 1.9em;
+}
+
+.pager-active {
+    background: #842e4c;
+}
+
+.pager:hover {
+    background: #00362f;
+}
+
+.pager-interim:hover {
+    background: #5e837e;
+}
+
+/*# sourceMappingURL=style.css.map */

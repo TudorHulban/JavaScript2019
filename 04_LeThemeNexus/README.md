@@ -1,0 +1,2 @@
+- In logged.html the infrastructure is loaded from JSON file fetched from server.
+- Responsive menus and some JS.

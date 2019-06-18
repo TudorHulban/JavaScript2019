@@ -1,0 +1,1 @@
+Trying to simulate with JS a crop of uploaded image UX. 

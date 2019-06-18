@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" name="submitted" hidden="hidden">
+    <button type="button">Upload</button>
+
+    <script>
+        const url = 'http://localhost:8080/upload';
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            elInput = document.getElementsByName("submitted")[0];
+
+            elTriggerBtn = document.getElementsByTagName("button")[0];
+            elTriggerBtn.addEventListener("click", () => {
+                elInput.click();
+            });
+
+            elInput.addEventListener("click", (ev) => {
+                let data = new FormData();
+                data.append("submitted", elInput.files[0]);
+                console.log(data);
+
+                let request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    console.log(request.responseText);
+                }
+                request.open("post", url);
+                request.send(data);
+            });
+        };
+    </script>
+</body>
+
+</html>

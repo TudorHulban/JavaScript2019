@@ -1,0 +1,28 @@
+header {
+    background-color: var(--header__bg--color);
+    color: var(--header__text--color);
+
+    ul {
+        display: flex;
+
+        li {
+            margin-top: 2px;
+            padding: 2px;
+
+            &:first-child {
+
+                margin-right: 10px;
+                margin-left: 3px;
+            }
+
+            &:last-child {
+                margin-left: auto;
+                margin-right: 5px;
+            }
+        }
+    }
+    
+      &:hover .semi-open {
+            display: inline-block;
+        }
+}

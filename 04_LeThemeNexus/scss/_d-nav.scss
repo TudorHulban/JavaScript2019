@@ -1,0 +1,44 @@
+nav {
+    background-color: var(--nav__bg--color);
+    color: var(--nav__text--color);
+
+    display: none;
+
+    ul {
+        li {
+            margin-bottom: 0;
+            padding-top: 4px;
+            padding-bottom: 0px;
+
+            &:hover {
+                background-color: var(--header__bg--color);
+            }
+
+            input {
+                width: 125px;
+            }
+        }
+    }
+
+    span {
+        padding-left: 5px;
+        padding-top: 12px;
+    }
+
+    .semi-open {
+        display: none;
+        margin-left: 3px;
+    }
+}
+
+
+@media screen and (min-width: 600px) {
+
+    nav:hover .semi-open {
+        display: inline-block;
+    }
+}
+
+#the-search {
+    margin: 2px 0 2px 2px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Antic' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Form Login</title>
+</head>
+
+<body id="loginbody">
+    <form class="" novalidate="" action="logged.html">
+        <div id="login" class="container__form">
+
+            <h1>Login</h1>
+
+            <div class="item">
+                <label for="email" class="">Email</label>
+
+                <div class="">
+                    <input type="email" id="username" class="" data-validate-length-range="4" data-validate-words="1" name="username" required="required">
+                </div>
+            </div>
+
+
+            <div class="item">
+                <label for="password" class="">Password</label>
+
+                <div class="">
+                    <input id="userpassword" class="" data-validate-length-range="4" data-validate-words="password" name="userpassword" required="required" type="password">
+                </div>
+            </div>
+
+            <div class="">
+                <button class="btn" id="submit" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

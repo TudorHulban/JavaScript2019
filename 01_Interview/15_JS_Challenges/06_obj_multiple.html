@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* exercise 9 - multiply properties of object */
+        "use strict"
+        document.addEventListener('DOMContentLoaded', init);
+
+        function multObject(pObject) {
+            return Object.values(pObject).reduce((acc, e) => acc = e * acc, 1)
+        };
+
+        function init() {
+            let sourceObj = {
+                x: 1
+                , y: 2
+                , z: 3
+            };
+            console.log(multObject(sourceObj));
+        };
+    </script>
+</body>
+
+</html>

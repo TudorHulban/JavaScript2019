@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let Person = function (pFirstName, pLastName) {
+            this.FirstName = pFirstName;
+            this.LastName = pLastName;
+        };
+
+        Person.prototype.FullName = function () {
+            return this.FirstName + ' ' + this.LastName;
+        }
+
+        // p1 has access to fullname method
+        let p1 = new Person("John", "Smith");
+        console.log("name:", p1.FullName());
+
+        console.log(p1.hasOwnProperty("FirstName")); // true
+        console.log(p1.hasOwnProperty("FullName"));  // false
+    </script>
+</body>
+
+</html>

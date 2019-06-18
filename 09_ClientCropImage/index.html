@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <img class="resize-image" src="assets/pexels-photo-355164.jpeg" alt="">
+
+    <script>
+        'use strict';
+
+        var canvasState = {
+            mouseDown: false,
+            drawContext: {},
+            x_coor: 0,
+            y_coor: 0,
+            x_center: 0,
+            y_center: 0,
+            x_min: 0,
+            x_max: 0,
+            y_min: 0,
+            y_max: 0
+        };
+
+        const cropWidth = 200;
+        const cropHeight = 200;
+
+        let resizeableImage = function(elTargetImage) {
+
+            let elCanvas = document.createElement('canvas');
+            elCanvas.style.border = "1px solid";
+            elCanvas.height = elTargetImage.height;
+            elCanvas.width = elTargetImage.width;
+
+            let elBody = document.getElementsByTagName('body')[0];
+            elBody.appendChild(elCanvas);
+
+            // events following
+
+            elCanvas.addEventListener('click', function(ev) {
+                canvasState.mouseDown = true;
+            });
+
+            elCanvas.addEventListener('mousemove', function(ev) {
+                let currentX = getMousePosInRectangle(elCanvas, ev).x;
+                let currentY = getMousePosInRectangle(elCanvas, ev).y;
+
+                if (insideRectangle(currentX, currentY)) {
+                    console.log("is inside");
+
+                    const d = new Date().getMilliseconds();
+                    const remainder = d % 20;
+
+                    if (remainder === 0) {
+
+                        console.log("winner");
+                        drawRectangle(canvasState.drawContext, canvasState.x_coor, canvasState.y_coor, currentX, currentY);
+                    } else console.log(remainder);
+
+                    if (canvasState.mouseDown) {
+                        console.log("move:" + getMousePosInRectangle(elCanvas, ev).x + " - mouse down: " + canvasState.mouseDown);
+                        console.log(canvasState);
+                    };
+                };
+            });
+
+
+            elCanvas.addEventListener('mouseup', function(ev) {
+
+                console.log("*********");
+                canvasState.mouseDown = false;
+
+                console.log(canvasState.mouseDown);
+            });
+
+
+            let ctx = document.getElementsByTagName('canvas')[0].getContext('2d');
+            ctx.drawImage(elTargetImage, 0, 0);
+
+            canvasState.x_coor = Math.round(elTargetImage.width / 4);
+            canvasState.y_coor = Math.round(elTargetImage.height / 4);
+            canvasState.drawContext = ctx;
+
+            drawRectangle(canvasState.drawContext, -1, -1, canvasState.x_coor, canvasState.y_coor);
+        };
+
+        function drawRectangle(canvasContext, old_x, old_y, new_x, new_y) {
+
+            if ((old_x === -1) && (old_y === -1)) {
+                canvasContext.strokeRect(new_x, new_y, cropWidth, cropHeight);
+
+                canvasState.x_center = Math.round(canvasContext.canvas.width / 4 + cropWidth / 2);
+                canvasState.y_center = Math.round(canvasContext.canvas.height / 4 + cropHeight / 2);
+                updateCanvasStateCoordinates();
+            } else {
+                if ((old_x !== new_x) && (old_y !== new_y)) {
+                    canvasContext.clearRect(old_x, old_y, cropWidth, cropHeight);
+                    canvasContext.strokeRect(new_x, new_y, cropWidth, cropHeight);
+
+                    updateCanvasStateCoordinates();
+                };
+            };
+        };
+
+        function updateCanvasStateCoordinates() {
+
+            canvasState.x_min = Math.round(canvasState.x_center - cropWidth / 2);
+            canvasState.x_max = Math.round(canvasState.x_center + cropWidth / 2);
+
+            canvasState.y_min = Math.round(canvasState.y_center - cropWidth / 2);
+            canvasState.y_max = Math.round(canvasState.y_center + cropWidth / 2);
+        };
+
+        function getMousePosInRectangle(canvas, ev) {
+            const rect = canvas.getBoundingClientRect();
+
+            let x = ev.clientX - rect.left;
+            let y = ev.clientY - rect.top;
+            return {
+                x: x,
+                y: y
+            };
+        };
+
+        function insideRectangle(x_current, y_current) {
+            if ((x_current <= canvasState.x_max) && (x_current >= canvasState.x_min) && (y_current <= canvasState.y_max) && (y_current >= canvasState.y_min)) {
+                return true;
+            } else {
+                return false
+            };
+        };
+
+        resizeableImage(document.getElementsByTagName('img')[0]);
+
+    </script>
+</body>
+
+</html>

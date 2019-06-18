@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task</title>
+</head>
+
+<body>
+    <script>
+        "use strict";
+        const SLA = {
+            LOW: 6,  // 6 hours
+            MED: 3,
+            HIGH: 1
+        }
+
+        let Task = function (pName, pOwner, pSLA = "HIGH") {
+            this.Name = pName;
+            this.Owner = pOwner;
+            this.Status = "OPEN";
+            this.SLA = pSLA;
+            this.Created = Date.now();
+        };
+
+        Task.prototype.SLA_MiliSeconds = function () {
+            switch (this.SLA) {
+                case "LOW": {
+                    return SLA.LOW * 3600 * 1000;
+                };
+                case "MED": {
+                    return SLA.MED * 3600 * 1000;
+                };
+                case "HIGH": {
+                    return SLA.HIGH * 3600 * 1000;
+                };
+                default: {
+                    return SLA.HIGH * 3600 * 1000;
+                }
+            }
+        };
+
+        Task.prototype.InSLA = function () {
+            let now = Date.now();  // miliseconds from Jan 1 1970
+            return (now - this.Created) < this.SLA_MiliSeconds();
+        };
+
+        Task.prototype.Notify = function () {
+            console.log("New Task:", this.Name, " assigned to: ", this.Owner);
+        };
+
+        let t1 = new Task("Task 1", "John Smith");
+        console.log(t1.Notify());
+
+        // object
+        let UrgentTask2 = new Task("Task 2", "Mary");
+        UrgentTask2.notify = function () {      // decorator
+            Task.prototype.Notify.call(this);
+            console.log("In SLA:", t1.InSLA());
+        };
+        console.log(UrgentTask2.notify());
+
+        // "sub objecting"
+        let UrgentTask = function (pName, pOwner) {
+            Task.call(this, pName, pOwner, "HIGH")
+        };
+        UrgentTask.prototype = Object.create(Task.prototype);  // inheritance
+        UrgentTask.prototype.Notify = function () {
+            Task.prototype.Notify.call(this);
+            console.log("In SLA:", t1.InSLA());
+        };
+
+        let t3 = new UrgentTask("Task 3", "Helen")
+        console.log(t3.Notify());
+    </script>
+</body>
+
+</html>

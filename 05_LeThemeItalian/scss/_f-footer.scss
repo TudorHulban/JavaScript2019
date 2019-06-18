@@ -1,0 +1,18 @@
+footer {
+    margin-top: 5px;
+    padding: 5px 0;
+    
+    background: var(--footer__bg-color);
+    color: var(--footer__text-color);
+    font-weight: 400;
+    font-family: "lato-regular", Helvetica, Arial, sans-serif;
+
+    & div {
+        padding-left: 7px;
+    }
+
+    & a,
+    a:visited {
+        color: var(--footer__text-color);
+    }
+}

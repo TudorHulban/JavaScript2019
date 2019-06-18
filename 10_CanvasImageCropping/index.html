@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sketches</title>
+</head>
+
+<body>
+    <img src="assets/pexel-beach.jpeg">
+    <div class="caret"></div>
+    <div class="corner" id="c1"></div>
+    <img style="border: 1px solid #000">
+
+    <script>
+        var whosDraggingID;
+        var offsetX;
+        var offsetY;
+
+        const caretSize = 100;
+        const cornerSize = 10;
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        function caretSelection(ev) {
+            const elSourceImg = document.getElementsByTagName('img')[0];
+
+            let elCanvas = document.createElement("canvas");
+            let ctx = elCanvas.getContext('2d');
+            elCanvas.width = elSourceImg.width;
+            elCanvas.height = elSourceImg.height;
+
+            ctx.drawImage(elSourceImg, 0, 0);
+
+            let imageData = ctx.getImageData(ev.clientX, ev.clientY, caretSize, caretSize);
+            elCanvas.width = caretSize;
+            elCanvas.height = caretSize;
+            ctx.putImageData(imageData, 0, 0);
+
+            let dstImg = document.getElementsByTagName('img')[1];
+            dstImg.src = elCanvas.toDataURL("image/png");
+        };
+
+        function actionMouseDown(ev) {
+            whosDraggingID = ev.target.id;
+            offsetX = ev.clientX - parseInt(ev.target.offsetLeft);
+            offsetY = ev.clientY - parseInt(ev.target.offsetTop);
+            ev.target.addEventListener('mousemove', actionMouseMove, true);
+            ev.target.style.backgroundColor = 'yellow';
+        };
+
+        function actionMouseUp(ev) {
+            elDragging = document.getElementById(whosDraggingID);
+
+            if (elDragging !== null) {
+                elDragging.removeEventListener('mousemove', actionMouseMove, true);
+                elDragging.style.backgroundColor = 'aqua';
+            };
+        };
+
+        function actionMouseMove(ev) {
+            ev.target.style.position = 'absolute';
+            ev.target.style.top = (ev.clientY - offsetY) + 'px';
+            ev.target.style.left = (ev.clientX - offsetX) + 'px';
+
+            elCaret = document.getElementsByClassName('caret')[0];
+            elCaret.style.top = (ev.clientY - offsetY + 5) + 'px';
+            elCaret.style.left = (ev.clientX - offsetX + 5) + 'px';
+        };
+
+        function init() {
+            const elCaret = document.getElementsByTagName('div')[0];
+            elCaret.addEventListener('dblclick', caretSelection);
+            elCaret.style.height = caretSize + 'px';
+            elCaret.style.width = caretSize + 'px';
+            elCaret.style.border = '1px dashed #000';
+            elCaret.style.position = 'absolute';
+            elCaret.style.zIndex = '2';
+            elCaret.style.top = '15px';
+            elCaret.style.left = '15px';
+
+            const elTargetCaret = document.getElementsByTagName('div')[1];
+
+            const elCorner = document.getElementsByTagName('div')[1];
+            elCorner.style.height = cornerSize + 'px';
+            elCorner.style.width = cornerSize + 'px';
+            elCorner.style.border = '1px solid #000';
+            elCorner.style.backgroundColor = 'aqua';
+            elCorner.style.position = 'absolute';
+            elCorner.style.zIndex = '5';
+
+            elCorner.style.top = Math.round(parseInt(elCaret.style.top) - cornerSize / 2) + 'px';
+            elCorner.style.left = Math.round(parseInt(elCaret.style.left) - cornerSize / 2) + 'px';
+            elCorner.style.cursor = 'pointer';
+
+            elCorner.addEventListener('mousedown', actionMouseDown, false);
+            window.addEventListener('mouseup', actionMouseUp, false);
+        };
+    </script>
+</body>
+</html>

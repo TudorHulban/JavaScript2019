@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* create function that will sum all arguments. use es6 when possible */
+        
+        document.addEventListener('DOMContentLoaded', init);
+
+        function addNumbers(...numbers) {
+            let sum = 0;
+            numbers.forEach(e => {
+                sum = sum + e;
+            });
+            return sum;
+        };
+
+        function init() {
+            console.log(addNumbers(1, 2, 2, 3, 4));
+        };
+    </script>
+</body>
+
+</html>

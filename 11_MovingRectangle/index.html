@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Move</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="container" class="editavatar-form">
+        <img src="assets/pebeach.jpeg" alt="" id="tocrop" class="editavatar-image" draggable="false">
+        <div class="editavatar-caret" id="caret"></div>
+    </div>
+
+    <script>
+        const caretSize = 100;
+        var isDragging = false;
+        var coordOX = 0;
+        var coordOY = 0;
+        var sizeImgOX = 0;
+        var sizeImgOY = 0;
+        var gutterSize = 20;
+        var containerDimensions = {};
+        var buffCoordOX;
+        var buffCoordOY;
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        function actionMouseDown(ev) {
+            ev.preventDefault;
+            ev.target.addEventListener('mousemove', actionMouseMove, true);
+            ev.target.style.borderColor = 'yellow';
+        };
+
+        function actionMouseUp(ev) {
+            if (isDragging) {
+                releaseCaret();
+            };
+        };
+
+        function actionMouseMove(ev) {
+            isDragging = true;
+            const elCaret = document.getElementById('caret');
+            const caretDimensions = elCaret.getBoundingClientRect();
+
+            //check that caret remains inside image
+            console.log("caretDimensions.left", caretDimensions.left, "caretDimensions.right", caretDimensions.right, "containerDimensions.left", containerDimensions.left, "containerDimensions.right", containerDimensions.right, "ev.clientX", ev.clientX);
+
+            const onleftCondition = (gutterSize / 2) - (caretDimensions.left - containerDimensions.left);
+            const onrightCondition = (gutterSize / 2) - (containerDimensions.right - caretDimensions.right);
+            const tolerance = 0;
+            console.log(onleftCondition, onrightCondition);
+
+            if ((onleftCondition < tolerance) && (onrightCondition < tolerance)) {
+                console.log("caret in middle");
+                elCaret.style.left = (ev.clientX - coordOX) + 'px';
+            } else {
+                //caret on left side
+                if ((onleftCondition >= tolerance) && (caretDimensions.left < (containerDimensions.right - containerDimensions.width / 2))) {
+
+                    console.log("caret in left", buffCoordOX, ev.clientX);
+                    //testing for mouse movement to right, basically previous coordinate smaller than current
+                    if (buffCoordOX < ev.clientX) {
+                        console.log("coordOX", coordOX);
+                        elCaret.style.left = parseFloat(elCaret.style.left) + 1 + 'px'; //move caret to right based on coordinates and not on mouse
+                    };
+                };
+
+                //caret on right side
+                if ((onrightCondition >= tolerance) && (caretDimensions.right > (containerDimensions.left + containerDimensions.width / 2))) {
+
+                    console.log("caret in right", caretDimensions.right, containerDimensions.right);
+                    //testing for mouse movement to left, basically previous coordinate greater than current
+                    if (buffCoordOX > ev.clientX) {
+                        console.log("coordOX", coordOX);
+                        elCaret.style.left = parseFloat(elCaret.style.left) - 1 + 'px'; //move caret to right based on coordinates and not on mouse
+                    };
+                };
+
+                console.log("caret not in middle");
+                buffCoordOX = ev.clientX;
+            };
+
+            const ontopCondition = (gutterSize / 2) - (caretDimensions.top - containerDimensions.top);
+            const onbottomCondition = (gutterSize / 2) - (containerDimensions.bottom - caretDimensions.bottom);
+            console.log(ontopCondition, onbottomCondition);
+
+            if ((ontopCondition < tolerance) && (onbottomCondition < tolerance)) {
+                console.log("caret in middle");
+                elCaret.style.top = (ev.clientY - coordOY) + 'px';
+            } else {
+                //caret on top side
+                if ((ontopCondition >= tolerance) && (caretDimensions.top < (containerDimensions.top + containerDimensions.width / 2))) {
+
+                    console.log("caret on top", buffCoordOY, ev.clientY);
+                    //testing for mouse movement to bottom, basically previous coordinate smaller than current
+                    if (buffCoordOY < ev.clientX) {
+                        console.log("coordOY", coordOY);
+                        elCaret.style.top = parseFloat(elCaret.style.top) + 1 + 'px'; //move caret to bottom based on coordinates and not on mouse
+                    };
+                };
+
+                //caret on bottom side
+                if ((onbottomCondition >= tolerance) && (caretDimensions.bottom > (containerDimensions.bottom - containerDimensions.width / 2))) {
+
+                    console.log("caret on bottom", caretDimensions.bottom, containerDimensions.bottom);
+                    //testing for mouse movement to top, basically previous coordinate smaller than current
+                    if (buffCoordOY > ev.clientY) {
+                        console.log("coordOY", coordOY);
+                        elCaret.style.top = parseFloat(elCaret.style.top) - 1 + 'px'; //move caret to top based on coordinates and not on mouse
+                    };
+                };
+
+                console.log("caret not in middle");
+                buffCoordOY = ev.clientY;
+            };
+        };
+
+        function releaseSelection(ev) {
+            releaseCaret();
+        };
+
+        function releaseCaret() {
+            const elCaret = document.getElementById('caret');
+            elCaret.style.borderColor = '#000';
+            elCaret.removeEventListener('mousemove', actionMouseMove, true);
+            isDragging = false;
+        };
+
+        function init() {
+            const elImg = document.getElementById('tocrop');
+            sizeImgOX = elImg.width;
+            sizeImgOY = elImg.height;
+
+            const elContainer = document.getElementsByClassName('editavatar-form')[0];
+            elContainer.style.width = sizeImgOX + gutterSize + 'px';
+            elContainer.style.height = sizeImgOY + gutterSize + 'px';
+
+            containerDimensions = elContainer.getBoundingClientRect();
+            console.log("dims:", containerDimensions);
+
+            coordOX = containerDimensions.x;
+            coordOY = containerDimensions.y;
+
+            const elCaret = document.getElementById('caret');
+            elCaret.style.height = caretSize + 'px';
+            elCaret.style.width = caretSize + 'px';
+
+            elCaret.addEventListener('mousedown', actionMouseDown, false);
+            window.addEventListener('mouseup', actionMouseUp, false);
+            window.addEventListener('mousedown', releaseSelection, true);
+        };
+    </script>
+</body>
+</html> 

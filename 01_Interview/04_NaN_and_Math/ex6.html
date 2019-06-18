@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const f1 = (...f) => f;
+        console.log("1:", f1(10));
+
+        const f2 = (...f) => f.reduce(f => f);
+        console.log("2:", f2(10));
+
+        const f3 = function () { return arguments };
+        console.log("3:", f3(10));
+
+        const f4 = f => f;
+        console.log("4:", f4(10));
+    </script>
+</body>
+
+</html>

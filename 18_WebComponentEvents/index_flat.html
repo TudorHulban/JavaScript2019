@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comms</title>
+</head>
+
+<body>
+    <my-checkreport></my-checkreport>
+
+    <script>
+        customElements.define('my-checkreport', class extends HTMLElement {
+            constructor() {
+                super();
+
+                const shadowRoot = this.attachShadow({
+                    mode: 'open'
+                });
+                shadowRoot.innerHTML = `<my-checkbox id="checkbox"></my-checkbox>`;
+                shadowRoot.querySelector('#checkbox').addEventListener('check', () => console.warn('check event'));
+            }
+        });
+
+        customElements.define('my-checkbox', class extends HTMLElement {
+            constructor() {
+                super();
+
+                const shadowRoot = this.attachShadow({
+                    mode: 'open'
+                });
+
+                this.checkEvent = new CustomEvent("check", {
+                    bubbles: true,
+                    cancelable: false,
+                });
+                shadowRoot.innerHTML = `<label><input type="checkbox" id="my-checkbox"></input></label>`;
+
+                shadowRoot.querySelector('#my-checkbox').addEventListener('click', (e) => {
+                    console.log('checked', e.target.checked);
+                    this.dispatchEvent(this.checkEvent);
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>

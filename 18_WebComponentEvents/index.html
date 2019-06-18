@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <link rel="import" href="./CoText/CoText.html">
+</head>
+
+<body>
+    <input type="text" isValid="true">
+    <button>Go</button>
+    <compo-text isVisible></compo-text>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", init());
+
+        function init() {
+
+            const elInput = document.getElementsByTagName('input')[0];
+            elInput.addEventListener('evEmit', (e) => {
+                console.log("ev:", e);
+                elInput.value = e.detail.theValue;
+            }, true);
+
+            const elButton = document.getElementsByTagName('button')[0];
+            elButton.addEventListener('click', (e) => {
+                const evEmit = new CustomEvent('evEmit', {
+                    detail: {
+                        theValue: "xc"
+                    }
+                });
+
+
+                elInput.dispatchEvent(evEmit);
+
+                let elCompo = document.getElementsByTagName('compo-text')[0];
+                console.log(elCompo);
+                elCompo.removeAttribute('isVisible');
+
+                console.log(elInput);
+                elInput.setAttribute("isValid", "false");
+            }, true);
+        };
+
+    </script>
+</body>
+
+</html>

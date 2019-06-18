@@ -1,0 +1,19 @@
+footer {
+    height: 20px;
+    top: 97%;
+
+    width: 100%;
+    background-color: #090123;
+    color: whitesmoke;
+}
+
+.footer {
+    display: flex;
+    padding: 1px 10px 4px 10px;
+    text-align: center;
+    cursor: pointer;
+    justify-content: space-around;
+
+    font-weight: 700;
+    font-size: 16px;
+}

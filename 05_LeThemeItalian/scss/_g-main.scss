@@ -1,0 +1,77 @@
+.search {
+    height: 38px;
+    border-bottom: 1px solid #000;
+    font-family: "lato-regular", Helvetica, Arial, sans-serif;
+
+    & ul {
+        width: 99.2%;
+        display: flex;
+        background-color: var(--menu__bg-color);
+        padding-left: 7px;
+
+        li {
+            &:first-child {
+                margin-top: 8px;
+                margin-right: 10px;
+                padding-right: 10px;
+            }
+
+            &:last-child {
+                margin: 5px 20px 3px auto;
+                cursor: pointer;
+            }
+        }
+
+        & input {
+            background-color: var(--menu__bg-color);
+
+            font-size: 1.1rem;
+            text-transform: uppercase;
+
+            &:placeholder-shown {
+                letter-spacing: 1px;
+                width: 400px;
+            }
+        }
+    }
+}
+
+.advanced-search {
+    height: 50px;
+    margin-top: -10px;
+
+    & label {
+        padding-right: 4px;
+    }
+
+    & .timestamp {
+        visibility: hidden;
+    }
+
+    & input[type="date"] {
+        background-color: var(--menu__bg-color);
+        color: var(--search__text-color);
+        font-weight: 300;
+
+        &::-webkit-inner-spin-button {
+            display: none;
+        }
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--menu__bg-color);
+        }
+    }
+
+    & ul {
+        width: 99.2%;
+        display: flex;
+        background-color: var(--menu__bg-color);
+        padding-left: 7px;
+        padding-bottom: 4px;
+    }
+
+    & div input {
+        background-color: var(--menu__bg-color);
+        text-transform: uppercase;
+    }
+}

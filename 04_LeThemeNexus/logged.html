@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title id="dimensions">theme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" href="css/icons.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="">
+            <ul>
+                <li id="btn-menu" class="icon-align-justify"></li>
+                <li class="icon-file-o">Events</li>
+                <li class="icon-locker-streamline-unlock">Logout</li>
+            </ul>
+        </div>
+    </header>
+
+    <nav>
+        <div class="">
+            <ul>
+                <li>
+                    <span class="icon-search"><input id="the-search" type="search" placeholder="Search" class="semi-open"></span>
+                </li>
+                <li>
+                    <span class="icon-database"><a href="#" class="semi-open" onclick="searchServers()">Servers</a></span>
+                </li>
+                <li>
+                    <span class="icon-gear"><a href="#" class="semi-open">IPs</a></span>
+                </li>
+                <li>
+                    <span class="icon-file-o"><a href="#" class="semi-open">DNS</a></span>
+                </li>
+                <li>
+                    <span class="icon-tools"> <a href="#" class="semi-open">Containers</a></span>
+                </li>
+                <li>
+                    <span class="icon-alert"><a href="#" class="semi-open">Settings</a></span>
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+
+    <main>
+        <div id="the-content" class="content">
+            <div class="content__header">
+                <div class="row__id">id</div>
+                <div class="row__hostname">host name</div>
+                <div class="row__ip">IP</div>
+                <div class="row__created">created</div>
+                <div class="row__lastupdated">last updated</div>
+                <div class="row__status">status</div>
+                <div class="row__action">
+                    <span class="action__title">actions</span>
+                </div>
+            </div>
+
+            <div class="content__row-odd">
+                <div class="row__id">1</div>
+                <div class="row__hostname">W23</div>
+                <div class="row__ip">192.168.1.121</div>
+                <div class="row__created">January 1, 2018</div>
+                <div class="row__lastupdated">tudor</div>
+                <div class="row__status">production</div>
+                <div class="row__action">
+                    <button type="button" class="btn action__1">Upload Cert</button>
+                    <button type="button" class="btn action__2">Upload Key</button>
+                    <button type="button" class="btn action__3" onclick="showModalContainer(this)" storeid="0">Add Container</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>footer</footer>
+
+    <script>
+        storeInfrastructure = new Object();
+        modal = new Object();
+
+        function closeNav() {
+            theNav.style.display = "none";
+            theMain.style.gridColumn = "1/-1";
+        }
+
+        const theButton = document.getElementById("btn-menu");
+
+        theButton.onmouseover = () => {
+            theNav.style.gridColumn = "1/1";
+            theNav.style.display = "block";
+            theMain.style.gridColumn = "2/-1";
+        }
+
+        const theHeader = document.getElementsByTagName("header")[0];
+
+        theHeader.onclick = () => {
+            closeNav();
+        }
+
+        const theMain = document.getElementsByTagName("main")[0];
+
+        theMain.onmouseover = () => {
+            closeNav();
+        }
+
+        const theNav = document.getElementsByTagName("nav")[0];
+
+        theNav.onmouseover = () => {
+
+            const tabletSize = getComputedStyle(document.documentElement).getPropertyValue("--tablet__size").replace("px", "");
+            const bsize = window.innerWidth;
+
+            if (bsize > tabletSize) {
+
+                theNav.style.gridColumn = "1/1";
+                theMain.style.gridColumn = "2/-1";
+
+                document.documentElement.style.setProperty("--column1__size", 160);
+            }
+        }
+
+        theNav.onmouseout = () => {
+            document.documentElement.style.setProperty("--column1__size", 30);
+        }
+
+
+        const theFooter = document.getElementsByTagName("footer")[0];
+
+        theFooter.onclick = () => {
+            closeNav();
+        }
+
+        function isEmptyObject(obj) {
+            for (var prop in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function showModalContainer(el) {
+            storeHost = el.getAttribute("storeid");
+
+            const modalbg = document.createElement("div");
+            modalbg.className = "modal";
+
+            const divform = document.createElement("div");
+            divform.className = "modal-content";
+
+            const f = document.createElement("form");
+            f.setAttribute("method", "post");
+            f.setAttribute("action", "#");
+
+            const lblContainer = document.createElement("label");
+            lblContainer.textContent = "Container Name" + " (for " + storeInfrastructure[storeHost].Host.Name + ")";
+            lblContainer.setAttribute("for", "hostname");
+
+            const inpHost = document.createElement("input");
+            inpHost.id = "hostname";
+            inpHost.setAttribute("type", "text");
+            inpHost.setAttribute("name", "username");
+            inpHost.setAttribute("data-validate-length-range", "4");
+            inpHost.setAttribute("placeholder", "Host Name");
+
+            const lblIP = document.createElement("label");
+            lblIP.textContent = "IP";
+            lblIP.setAttribute("for", "ip");
+
+            const inpIP = document.createElement("input");
+            inpIP.id = "ip";
+            inpIP.setAttribute("type", "text");
+            inpIP.setAttribute("name", "ip");
+            inpIP.setAttribute("data-validate-length-range", "8");
+            inpIP.setAttribute("placeholder", "IP");
+
+            const lblUser = document.createElement("label");
+            lblUser.textContent = "User Name";
+            lblUser.setAttribute("for", "user");
+
+            const inpUser = document.createElement("input");
+            inpUser.id = "username";
+            inpUser.setAttribute("type", "text");
+            inpUser.setAttribute("name", "username");
+            inpUser.setAttribute("data-validate-length-range", "4");
+            inpUser.setAttribute("placeholder", "User Name");
+
+            const lblPassword = document.createElement("label");
+            lblPassword.textContent = "Password";
+            lblPassword.setAttribute("for", "user");
+
+            const inpPassword = document.createElement("input");
+            inpPassword.id = "password";
+            inpPassword.setAttribute("type", "text");
+            inpPassword.setAttribute("name", "password");
+            inpPassword.setAttribute("data-validate-length-range", "4");
+            inpPassword.setAttribute("placeholder", "Password");
+
+            //starting buttons section
+            const divformbuttons = document.createElement("div");
+
+            const btnCancel = document.createElement("button");
+            btnCancel.id = "cancel";
+            btnCancel.className = "btn";
+            btnCancel.textContent = "Cancel";
+            const btnSubmit = document.createElement("button");
+            btnSubmit.id = "submit";
+            btnSubmit.className = "btn";
+            btnSubmit.textContent = "Submit";
+
+            divformbuttons.appendChild(btnCancel);
+            divformbuttons.appendChild(btnSubmit);
+
+            //starting virtualization - select section
+            const lblVirtualization = document.createElement("label");
+            lblVirtualization.textContent = "Type";
+
+            const optionVirtualization = document.createElement("select");
+
+            const virtualizationType = ["LXD", "VMM", "VmWare", "Virtual Box", "KVM"];
+            virtualizationType.forEach((item, index) => {
+                var option = document.createElement("option");
+                //option.value = array[i];
+                option.text = item;
+                optionVirtualization.appendChild(option);
+            });
+
+            f.appendChild(lblContainer);
+            f.appendChild(inpHost);
+            f.appendChild(lblIP);
+            f.appendChild(inpIP);
+            f.appendChild(lblUser);
+            f.appendChild(inpUser);
+            f.appendChild(lblPassword);
+            f.appendChild(inpPassword);
+            f.appendChild(lblVirtualization);
+            f.appendChild(optionVirtualization);
+            f.appendChild(divformbuttons);
+
+            divform.appendChild(f);
+            modalbg.appendChild(divform);
+
+            document.getElementsByTagName('body')[0].appendChild(modalbg);
+
+            modal = modalbg;
+        }
+
+        window.onclick = function(ev) {
+
+            if (ev.target === modal) {
+                modal.remove();
+            }
+
+        }
+
+        function searchServers() {
+            document.getElementById("the-content").innerHTML = "";
+            addHeader();
+
+            const searchCriteria = document.getElementById("the-search").value;
+
+            if ((searchCriteria === undefined) || (searchCriteria.trim().length === 0)) {
+                storeInfrastructure.forEach(addRow);
+                console.log("criteria:" + searchCriteria);
+            } else {
+                const infra = storeInfrastructure.filter(item => item.Host.Name.toLowerCase().indexOf(searchCriteria.toLowerCase()) > -1);
+
+                console.log("infra:" + infra);
+                console.log("criteria:" + searchCriteria);
+
+                infra.forEach(addRow);
+            };
+        }
+
+        function addHeader() {
+
+            const row__div = document.createElement("div");
+            row__div.className = "content__header";
+
+            const row__id = document.createElement("div");
+            row__id.className = "row__id";
+            row__id.innerHTML = "id";
+
+            const row__hostname = document.createElement("div");
+            row__hostname.className = "row__hostname";
+            row__hostname.innerHTML = "host name";
+
+            const row__ip = document.createElement("div");
+            row__ip.className = "row__ip";
+            row__ip.innerHTML = "ip";
+
+            row__div.appendChild(row__id);
+            row__div.appendChild(row__hostname);
+            row__div.appendChild(row__ip);
+
+            document.getElementById("the-content").appendChild(row__div);
+        }
+
+        function addRow(item, index) {
+
+            const row__div = document.createElement("div");
+            if ((index + 1) % 2 == 0) {
+                row__div.className = "content__row-even"
+            } else {
+                row__div.className = "content__row-odd"
+            };
+
+            const row__id = document.createElement("div");
+            row__id.className = "row__id";
+            row__id.innerHTML = index + 1;
+
+            const row__hostname = document.createElement("div");
+            row__hostname.className = "row__hostname";
+            row__hostname.innerHTML = item.Host.Name;
+
+            const row__ip = document.createElement("div");
+            row__ip.className = "row__ip";
+            row__ip.innerHTML = item.Host.Ip;
+
+            row__div.appendChild(row__id);
+            row__div.appendChild(row__hostname);
+            row__div.appendChild(row__ip);
+
+            document.getElementById("the-content").appendChild(row__div);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('http://127.0.0.1:44435/customers.json')
+                .then(response => response.json())
+                .then(infrainfo => {
+                    storeInfrastructure = infrainfo.Response.Message;
+                    console.log(storeInfrastructure);
+
+                    storeInfrastructure.forEach(addRow);
+                });
+        });
+
+    </script>
+</body>
+
+</html>

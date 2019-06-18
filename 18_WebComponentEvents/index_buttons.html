@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Buttons</title>
+</head>
+
+<body>
+    <x-btn label="Go1"></x-btn>
+    <x-btn label="Go2"></x-btn>
+
+    <script>
+        customElements.define('x-btn', class extends HTMLElement {
+            constructor() {
+                super();
+
+                const shadowRoot = this.attachShadow({
+                    mode: 'open'
+                });
+
+                const attrLabel = this.getAttribute('label')
+
+                this.showMsg = (pMsg) => console.info("showMsg by " + attrLabel, pMsg);
+
+                shadowRoot.innerHTML = '<button>' + attrLabel + '</button>';
+                shadowRoot.querySelector('button').addEventListener('click', () => {
+
+                    function notSame(pEl) {
+                        if (pEl.getAttribute('label') !== attrLabel) {
+                            return pEl
+                        };
+                    };
+
+                    let theOther = Array.from(document.getElementsByTagName('x-btn')).filter(notSame)[0];
+
+                    theOther.showMsg("xxx");
+                });
+            };
+        });
+
+    </script>
+</body>
+
+</html>

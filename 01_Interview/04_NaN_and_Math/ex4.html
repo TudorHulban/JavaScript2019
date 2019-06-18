@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const b = [1, 2, 3];
+        const f = (a, ...b) => a + b;
+        const s = (a, b) => a + b;
+
+        console.log(f(1));           // 1
+        console.log(f(4, 1));        // 41
+        console.log(f(4, 1, 2, 3));  // 41.2.3
+        console.log(f(4, 1, "a", 3));  // 41.a.3
+
+        console.log(s(4, 1));        // 5
+        console.log(s(4, "a"));      // 4a
+        console.log(s("a", 4));      // a4
+    </script>
+</body>
+
+</html>

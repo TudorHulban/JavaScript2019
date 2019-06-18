@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+
+<body>
+    <script>
+        const bURL = "http://localhost:3000/"
+
+        const req = async (pURL, pToken = "", pMethod = "GET") => {
+            const response = await fetch(bURL + pURL, {
+                method: pMethod,
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${pToken}`
+                }
+            });
+            const json = await response.json();
+            return (pMethod == "GET" ? json : json.token)
+        }
+
+        req("j").then(j => console.log("JSON: ", j));
+        req("login", "", "POST").then(token => {
+            console.log("token: ", token)
+            req("a", token).then(r => console.log("JSON: ", r))
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Navigator</title>
+    <!-- http://paletton.com/#uid=73X0u0klluwbfY5hkJZnVlTof92 -->
+
+    <link rel="import" href="./CoNav/CoNav.html">
+    <link rel="import" href="./CoForm/CoForm.html">
+    <link rel="import" href="./CoFooter/CoFooter.html">
+    <link rel="import" href="./CoSlide/CoSlide.html">
+</head>
+
+<body>
+
+
+    <compo-nav categs="customers, trainings, login" bg__color="#484fa8" text__color="#f3e351"></compo-nav>
+
+    <compo-form config='{"url":[{"p":"post"},{"u":"https://putsreq.com/lJALaobXfJ10fsWqEK97"}],"info":[{"n":"CustomerName","o":[]}, {"n":"Phone Number","o":[]}, {"n":"Technology","o":["VirtualBox", "LXD"]}, {"n":"Contact person","o":[]}], "btn":"add", "color_bg":"#484fa8", "color_text":"#f3e351", "showElemID":"slide"}'></compo-form>
+
+    <compo-slide id="slide" config='{"img":["./CoSlide/im1.jpeg","./CoSlide/im2.jpeg", "./CoSlide/im3.jpeg"], "ms":"5000"}'></compo-slide>
+
+    <compo-footer url-target="http://www.yahoo.com" url-text="yahoo" bg__color="#484fa8" text__color="#f3e351"></compo-footer>
+</body>
+
+</html>

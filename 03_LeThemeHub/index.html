@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="grouping">
+        <ul class="primary">
+            <li><img src="assets/images/monkey_business.png" alt="img1" class="figure"></li>
+            <li><input type="text" class="search" placeholder="Search"></li>
+            <li class="item"><span>Servers</span></li>
+            <li><span>IPs</span></li>
+            <li><span>DNS</span></li>
+            <li><span>Containers</span></li>
+            <li><span>Settings</span></li>
+            <li><span>bell</span></li>
+            <li class="has-submenu">
+                <img src="assets/images/avatar_girl.png" alt="avatar" class="figure" id="avatar">
+
+                <ul>
+                    <li class="submenu-item">Your Events</li>
+                    <li class="submenu-item">Your Tasks</li>
+                    <li><br> </li>
+                    <li class="submenu-item">Settings</li>
+                    <li class="submenu-item">Sign out</li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="settings links">
+            <div class="container">
+                <span>Personal Settings</span>
+                <a href="#" class="pelink">Profile</a>
+                <a href="#" class="pelink">Account</a>
+                <a href="#" class="pelink">Emails</a>
+                <a href="#" class="pelink">Notifications</a>
+            </div>
+        </div>
+
+        <div class="settings profile">
+            <div class="container">
+                <span>Profile Account</span>
+                <label for="" class="pritem">Name</label>
+                <input type="text" class="pritem">
+            </div>
+        </div>
+
+        <div class="settings avatar">
+            <div class="container">
+                <input type="file" id="submitted" hidden="hidden" accept="image/*">
+                <label for="" class="avitem">Profile picture</label>
+                <img src="assets/images/avatar_girl.png" alt="" class="profile-picture">
+                <label for="" class="avitem">Upload new picture</label>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <ul class="footer">
+            <li>Copyrighted 2018</li>
+            <li>Terms</li>
+            <li>Privacy</li>
+            <li>About</li>
+        </ul>
+    </footer>
+
+    <script>
+        'use strict';
+        var whosDraggingID;
+        var offsetX;
+        var offsetY;
+        var caretOffsetOX;
+        var caretOffsetOY;
+        var caretSize = 100;
+
+        //http://blog.teamtreehouse.com/reading-files-using-the-html5-filereader-api
+        document.addEventListener('DOMContentLoaded', init);
+
+        function showUploadedImage(uploadedImg) {
+            const gutter = 40;
+
+            const elDivUploaded = document.createElement("div");
+            elDivUploaded.id = 'XXX';
+            elDivUploaded.className = 'editavatar-form';
+            elDivUploaded.style.width = gutter + uploadedImg.width + 'px';
+            elDivUploaded.style.height = gutter + uploadedImg.height + 'px';
+            elDivUploaded.appendChild(uploadedImg);
+
+            const elCaret = document.createElement("div");
+            elCaret.id = "caret";
+            elCaret.addEventListener('dblclick', caretSelection);
+            elCaret.style.height = caretSize + 'px';
+            elCaret.style.width = caretSize + 'px';
+            elCaret.className = 'editavatar-caret';
+
+            elDivUploaded.appendChild(elCaret);
+            document.getElementsByTagName('body')[0].appendChild(elDivUploaded);
+            window.addEventListener('mouseup', actionMouseUp, false);
+        };
+
+        function actionMouseDown(ev) {
+            whosDraggingID = ev.target.id;
+
+            console.log("actionMouseDown", ev.clientX, ev.clientY, ev);
+            console.log("actionMouseDown offsets", ev.target.offsetLeft, ev.target.offsetTop);
+
+            offsetX = -parseInt(ev.target.offsetLeft);
+            offsetY = -parseInt(ev.target.offsetTop);
+
+            caretOffsetOX = ev.target.parentNode.clientX;
+            caretOffsetOY = ev.target.parentNode.clientY;
+            console.log("caretOffset", ev.target.parentNode.left);
+
+            ev.target.addEventListener('mousemove', actionMouseMove, true);
+            ev.target.style.backgroundColor = 'yellow';
+        };
+
+        function actionMouseMove(ev) {
+            console.log(offsetX, offsetY);
+            console.log(ev.clientX, ev.clientY, ev);
+
+            let elCaret = document.getElementsByClassName('editavatar-caret')[0];
+            elCaret.style.top = Math.round(ev.clientY - offsetY + cornerSize / 2 - caretOffsetOY) + 'px';
+            elCaret.style.left = Math.round(ev.clientX - offsetX + cornerSize / 2 - caretOffsetOX) + 'px';
+
+            caretOffsetOX = (ev.target.parentNode.clientY - offsetY) - caretOffsetOX;
+            ev.target.style.top = caretOffsetOX + 'px';
+
+            caretOffsetOY = (ev.target.parentNode.clientY - offsetY) - caretOffsetOY;
+            ev.target.style.left = caretOffsetOY + 'px';
+
+            ev.target.style.top = (ev.clientY - offsetY) + 'px';
+            ev.target.style.left = (ev.clientX - offsetX) + 'px';
+        };
+
+        function actionMouseUp(ev) {
+            if (whosDraggingID !== null) {
+                let elDragging = document.getElementById(whosDraggingID);
+                elDragging.removeEventListener('mousemove', actionMouseMove, true);
+                elDragging.style.backgroundColor = 'aqua';
+            };
+        };
+
+        function init() {
+            const elImgUploaded = document.createElement("img");
+            const elInput = document.getElementById("submitted");
+            const elLabel = document.getElementsByClassName('avitem')[1];
+
+            elImgUploaded.addEventListener('onload', (ev) => {
+                console.log("image loaded:", ev.target);
+            });
+
+            elInput.addEventListener('click', (ev) => {
+                //console.log("click:", ev.target);
+            });
+
+            elInput.addEventListener('change', (ev) => {
+                let imageFile = elInput.files[0];
+
+                if (Math.round(imageFile.size / 1024) < 100) {
+
+                    let imageReader = new FileReader();
+
+                    imageReader.onload = (ev) => {
+                        let img = new Image();
+                        img.src = imageReader.result;
+
+                        //check image size and dimensions
+                        img.onload = function() {
+                            console.log(this.width, this.height);
+                        };
+                        img.className = 'editavatar-image';
+                        showUploadedImage(img);
+                    };
+
+                    imageReader.readAsDataURL(imageFile);
+                } else {
+                    console.log("imageFile too large at:", imageFile.size, "bytes");
+                };
+            });
+
+            elLabel.style.cursor = 'pointer';
+            elLabel.addEventListener('click', () => {
+                elInput.click()
+            });
+
+        };
+
+        function caretSelection(ev) {
+            const elSourceImg = document.getElementsByTagName('img')[0];
+            let elCanvas = document.createElement("canvas");
+            let ctx = elCanvas.getContext('2d');
+            elCanvas.width = elSourceImg.width;
+            elCanvas.height = elSourceImg.height;
+            ctx.drawImage(elSourceImg, 0, 0);
+
+            let imageData = ctx.getImageData(ev.clientX, ev.clientY, caretSize, caretSize);
+            elCanvas.width = caretSize;
+            elCanvas.height = caretSize;
+            ctx.putImageData(imageData, 0, 0);
+
+            let dstImg = document.getElementsByTagName('img')[1];
+            dstImg.src = elCanvas.toDataURL("image/png");
+        };
+    </script>
+</body>
+
+</html>

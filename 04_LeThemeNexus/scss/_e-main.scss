@@ -1,0 +1,118 @@
+main {
+    background-color: var(--main__bg--color);
+    color: var(--main__text--color);
+
+    .content {
+        width: 90%;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-family: 'Montserrat';
+    }
+
+    .content__header {
+        font-weight: bold;
+        text-transform: capitalize;
+        font-family: 'Abel';
+    }
+
+    .content__row-odd {
+        background-color: var(--nav__bg--color);
+    }
+
+    .row__created,
+    .row__lastupdated,
+    .row__id,
+    .row__action {
+        display: none;
+    }
+
+    .row__action {
+        justify-content: space-between;
+    }
+
+    .content__header,
+    .content__row-odd,
+    .content__row-even {
+        display: grid;
+        grid-template-rows: 1;
+        grid-template-columns: 1fr $ip-column 1fr;
+    }
+
+    .btn {
+        padding: .25rem;
+        border: 1px solid var(--main__text--color);
+
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .action__1,
+    .action__2,
+    .action__3 {
+        background-color: var(--main__text--color);
+        margin-top: 0;
+    }
+}
+
+@media screen and (min-width: $breakpoint-phone) {
+
+    main {
+        .content__header,
+        .content__row-odd,
+        .content__row-even {
+            grid-template-columns: 40px 1fr $ip-column 1.5fr;
+        }
+
+        .row__id {
+            display: block;
+        }
+    }
+}
+
+@media screen and (min-width: $tablet__size) {
+
+    main {
+        .content__header,
+        .content__row-odd,
+        .content__row-even {
+            grid-template-columns: 40px 1fr $ip-column $created-column 1fr;
+        }
+
+        .row__created {
+            display: block;
+        }
+    }
+}
+
+@media screen and (min-width: $breakpoint-tabletlandscape) {
+
+    main {
+        .content__header,
+        .content__row-odd,
+        .content__row-even {
+            grid-template-columns: 40px 1fr $ip-column $created-column $lastupdated-column $status-column;
+        }
+
+        .row__lastupdated {
+            display: block;
+        }
+    }
+}
+
+@media screen and (min-width: $breakpoint-desktop) {
+
+    main {
+        .content__header,
+        .content__row-odd,
+        .content__row-even {
+            grid-template-columns: 40px 1fr $ip-column 1.5fr 1fr 1fr 30%;
+        }
+
+        .row__action {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}

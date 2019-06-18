@@ -1,0 +1,43 @@
+main {
+    margin-top: 5vh;
+    margin-bottom: 15vh;
+    
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+main .settings {
+    display: inline-block;
+    background-color: burlywood;
+    border: .1px solid #000;
+    margin-right: 10px;
+    padding: 10px 5px 8px 4px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+
+    & .pelink {
+        padding: 3px 5px 2px 8px;
+    }
+
+    & .pritem {
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 3px 5px 2px 8px;
+    }
+    
+    & .avitem {
+    text-align: center;
+    }
+}
+
+.profile-picture {
+    overflow: hidden;
+    height: 200px;
+    width: auto;
+    
+    padding: 10px;
+}
+
+

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <script>
+        var store = {};
+        var itemsTotal = 0;
+        var itemsPerPage = 10;
+        var currentPageNumber = 1;
+        var totalPages = 1;
+        const numberPreviousPagers = 3;
+        const numberAfterPagers = 3;
+        const itemsURL = "http://127.0.0.1:8080/posts/";
+
+        document.addEventListener("DOMContentLoaded", fetchItems(currentPageNumber));
+
+        function fetchItems(pPageNumber) {
+
+            fetch(itemsURL + pPageNumber + "/" + itemsPerPage).then(response => response.json()).then(data => {
+                store = data.Items;
+                itemsTotal = data.totalposts;
+                totalPages = Math.ceil((itemsTotal - 1) / itemsPerPage);
+
+                if (store.length !== undefined) {
+                    renderPageItems(pPageNumber, store);
+                    renderPagers(pPageNumber, store);
+                } else {
+                    console.log("xhr error")
+                }
+            });
+        }
+
+        function renderPageItems(pPagenumber, pStore) {
+            const content = document.getElementsByClassName("content");
+
+            if (content.length !== 0) {
+                content[0].parentNode.removeChild(content[0]);
+            };
+
+            const divItems = document.createElement("div");
+            divItems.className = "content";
+
+            if (pStore.length !== 0) {
+                pStore.forEach((pCurrentVal, pIndex) => {
+
+                    const itemHTML = document.createElement("div");
+                    itemHTML.className = "item";
+                    itemHTML.textContent = `${pCurrentVal.ID}` + " - " + `${pCurrentVal.Description}`;
+                    divItems.appendChild(itemHTML);
+                });
+
+                document.getElementsByTagName('body')[0].appendChild(divItems);
+            } else {
+                console.log("renderPageItems - store null")
+            };
+
+        }
+
+        function renderPagers(pPagenumber) {
+            const fromPage = Math.max(0, (+pPagenumber) - numberPreviousPagers);
+            const toPage = Math.min(totalPages, (+pPagenumber - 1) + numberAfterPagers, totalPages - 1);
+
+            console.log("current page: " + pPagenumber);
+            console.log("to page:" + toPage);
+
+            const elDivPagers = document.getElementsByClassName("divPagers");
+
+            if (elDivPagers.length !== 0) {
+                elDivPagers[0].parentNode.removeChild(elDivPagers[0]);
+            };
+
+            const divPagers = document.createElement("div");
+            divPagers.className = "divPagers container";
+
+            if (pPagenumber > 1) {
+                const previousPagePagerHTML = document.createElement("span");
+                previousPagePagerHTML.className = "pager pager-previous";
+                previousPagePagerHTML.textContent = "< Previous";
+                previousPagePagerHTML.addEventListener("click", clickPrevious, false);
+                divPagers.appendChild(previousPagePagerHTML);
+            }
+
+            if ((totalPages > (1 + numberPreviousPagers + numberAfterPagers)) && (currentPageNumber > numberPreviousPagers)) {
+
+                const firstPagePagerHTML = document.createElement("span");
+                firstPagePagerHTML.className = "pager pager-item pager-first";
+                firstPagePagerHTML.textContent = "1";
+                firstPagePagerHTML.addEventListener("click", clickFirst, false);
+                divPagers.appendChild(firstPagePagerHTML);
+
+                if ((totalPages - toPage > 0) && (currentPageNumber > numberPreviousPagers + 1)){
+                    const firstPageInterimHTML = document.createElement("span");
+                    firstPageInterimHTML.className = "pager pager-interim";
+                    firstPageInterimHTML.textContent = "...";
+                    divPagers.appendChild(firstPageInterimHTML);
+                };
+            }
+
+            for (let i = fromPage; i < toPage; i++) {
+                const pagerHTML = document.createElement("span");
+
+                if (i === currentPageNumber - 1) {
+                    pagerHTML.className = "pager pager-item pager-active";
+                } else {
+                    pagerHTML.className = "pager pager-item";
+                };
+
+                pagerHTML.textContent = `${i + 1}`;
+                pagerHTML.addEventListener("click", clickPager, false);
+                divPagers.appendChild(pagerHTML);
+            };
+
+            if ((totalPages > (1 + numberPreviousPagers + numberAfterPagers)) ) {
+
+                if (totalPages - toPage > 1) {
+                    const lastPageInterimHTML = document.createElement("span");
+                    lastPageInterimHTML.className = "pager pager-interim";
+                    lastPageInterimHTML.textContent = "...";
+                    divPagers.appendChild(lastPageInterimHTML);
+                };
+
+                const lastPagePagerHTML = document.createElement("span");
+                lastPagePagerHTML.className = "pager pager-item pager-last";
+                lastPagePagerHTML.textContent = totalPages;
+                lastPagePagerHTML.addEventListener("click", clickLast, false);
+                divPagers.appendChild(lastPagePagerHTML);
+            }
+
+            if ((pPagenumber < itemsTotal) && (currentPageNumber < totalPages)) {
+                const nextPagePagerHTML = document.createElement("span");
+                nextPagePagerHTML.className = "pager pager-next";
+                nextPagePagerHTML.textContent = "Next >";
+                nextPagePagerHTML.addEventListener("click", clickNext, false);
+                divPagers.appendChild(nextPagePagerHTML);
+            }
+
+            document.getElementsByTagName('body')[0].appendChild(divPagers);
+        };
+
+        function clickFirst(ev) {
+            currentPageNumber = 1;
+            fetchItems(currentPageNumber);
+        };
+
+        function clickPrevious(ev) {
+            currentPageNumber--;
+            fetchItems(currentPageNumber);
+        };
+
+        function clickNext(ev) {
+            currentPageNumber++;
+            fetchItems(currentPageNumber);
+        };
+
+        function clickLast(ev) {
+            currentPageNumber = totalPages;
+            fetchItems(currentPageNumber);
+        };
+
+        function clickPager(ev) {
+            el = ev.target;
+            if (!el.matches(".pager-active")) {
+
+                const previousEl = document.getElementsByClassName("active");
+
+                if (previousEl.length !== 0) {
+                    previousEl[0].classList.remove("active");
+                };
+
+                el.className = "pager pager-item pager-active";
+                currentPageNumber = el.innerHTML;
+                fetchItems(currentPageNumber);
+            };
+        };
+
+    </script>
+</body>
+
+</html>

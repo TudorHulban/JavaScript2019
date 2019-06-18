@@ -1,0 +1,68 @@
+.hero {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    background: url('../assets/hero_devops_small.jpeg') no-repeat bottom center;
+    background-size: cover;
+
+    & nav {
+        overflow: hidden;
+
+        & > ul {
+            display: flex;
+
+            & > li {
+                margin-top: 2px;
+                padding: 25px 0;
+                margin-right: 10px;
+
+                &:first-child {
+                    margin-left: 7px;
+                }
+
+                &:last-child {
+                    margin-left: auto;
+                }
+
+                .btn__login {
+                    margin-right: -15px;
+                }
+            }
+        }
+
+        & .menu-sub {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 5px;
+
+            position: absolute;
+            left: 30%;
+            width: 40%;
+            text-align: center;
+            font-family: "lato-regular", Helvetica, Arial, sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            border: 1px solid #000;
+            background-color: var(--menu__bg-color);
+
+            & > .menu-sub-item:hover {
+                font-weight: 400;
+                color: var(--footer__text-color);
+                background-color: var(--footer__bg-color);
+            }
+        }
+    }
+
+    & a {
+        color: antiquewhite;
+        font-weight: 900;
+        font-family: "lato-regular", Helvetica, Arial, sans-serif;
+    }
+}
+
+.visible-not {
+    visibility: hidden;
+}

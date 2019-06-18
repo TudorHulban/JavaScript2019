@@ -1,0 +1,21 @@
+@media (max-width:1500px) {
+    .menu {
+        visibility: collapse;
+    }
+}
+
+@media (max-width:1150px) {}
+
+@media (max-width:800px) {
+    .navi {
+        visibility: hidden;
+    }
+
+    .menu {
+        visibility: visible;
+        margin-left: auto;
+        margin-right: 7px;
+    }
+}
+
+@media (max-width:500px) {}

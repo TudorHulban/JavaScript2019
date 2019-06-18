@@ -1,0 +1,1 @@
+Facade hides complexity.
