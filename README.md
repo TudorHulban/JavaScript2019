@@ -166,6 +166,11 @@ A promise can be of three states:
 2. Rejected: The operation is failed and promise has a reason which shows why the operation failed.
 3. Pending: Th operation is not fulfilled or rejected, means it has not completed yet.
 
+Resources:
+```html
+https://developers.google.com/web/fundamentals/primers/promises
+```
+
 ### Event Capture, Bubbling and Delegation
 In HTML DOM API there are two ways of event propagation and determines the order in which event will be received. The two ways are Event Bubbling and Event Capturing. The first method event bubbling directs the event to its intended target, and the second is called event capture in which the event goes down to the element.
 
