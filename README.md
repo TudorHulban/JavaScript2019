@@ -260,6 +260,7 @@ https://shichuan.github.io/javascript-patterns/
 https://medium.freecodecamp.org/how-to-improve-your-javascript-skills-by-writing-your-own-web-development-framework-eed2226f190
 https://medium.freecodecamp.org/the-complete-javascript-handbook-f26b2c71719c
 https://medium.freecodecamp.org/an-introduction-to-object-oriented-programming-in-javascript-8900124e316a
+https://tobiasahlin.com/blog/move-from-jquery-to-vanilla-javascript/
 ```
 #### Bind
 ```html
