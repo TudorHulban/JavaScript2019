@@ -3,22 +3,33 @@ import { ValidateName } from "./model_validator.js"
 document.getElementById("btnSubmit").onclick = validate;
 
 function validate() {
-    console.log("submitted")
-
     let messages = []
 
-    const fName = document.forms["login"]["firstName"].value
-    let v = ValidateName("first Name", fName)
-    if (v.length>0) {
-        messages.push(v)
-    }
+    const el = document.getElementById("login").getElementsByTagName("input");
 
-    const lName = document.forms["login"]["lastName"].value
-    v = ValidateName("last Name", lName)
-    if (v.length>0) {
-        messages.push(v)
+    for (let i = 0; i < el.length; i++) {
+        const v = el[i].getAttribute("validation")
+        if (v === null) {
+            continue
+        }
+
+        if (v.length > 0) {
+            console.log(el[i].id, "needs validation")
+            const msgValidation = assignValidator(v, el[i].id, el[i].value)
+
+            if (msgValidation.length > 0) {
+                messages.push(msgValidation)
+            }
+        }
     }
 
     let elError = document.getElementById("error");
     elError.innerText = messages.join(', ') + "."
+}
+
+function assignValidator(validationType, fieldName, val) {
+    switch (validationType) {
+        case "name":
+            return ValidateName(fieldName, val);
+    }
 }

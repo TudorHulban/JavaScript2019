@@ -7,6 +7,13 @@ export function ValidateName(fieldName, name) {
         return "Please enter name for " + fieldName
     }
 
-    console.log(name);
+    if (name.length == 1) {
+        return "Name too short for " + fieldName
+    }
+
+    if (name[0] !== name[0].toUpperCase()) {
+        return "Please capitalize " + fieldName
+    };
+
     return ""
 }

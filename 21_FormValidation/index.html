@@ -11,14 +11,14 @@
 <body>
     <div id="error" style="color:red"></div>
 
-    <form name="login" action="" method="post">
+    <form id="login" name="login" action="" method="post">
         <label for="fname">First name:</label>
-        <input id="firstName" type="text">
+        <input id="firstName" type="text" validation="name">
 
         <br>
 
         <label for="lname">Last name:</label>
-        <input id="lastName" type="text">
+        <input id="lastName" type="text" validation="name">
 
         <button id="btnSubmit" type="button">Submit</button>
     </form>
