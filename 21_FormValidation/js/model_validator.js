@@ -1,19 +1,26 @@
+const Messages = Object.freeze({
+    nameUndefined: "Name is undefined for ",
+    nameNull: "Please enter name for ",
+    nameShort: "Name too short for ",
+    nameCapitalize: "Please capitalize "
+});
+
 export function ValidateName(fieldName, name) {
     if (name === undefined) {
-        return "Name is undefined for " + fieldName
+        return Messages.nameUndefined.concat(fieldName, ".")
     }
 
     if (name.length == 0) {
-        return "Please enter name for " + fieldName
+        return Messages.nameNull.concat(fieldName, ".")
     }
 
     if (name.length == 1) {
-        return "Name too short for " + fieldName
+        return Messages.nameShort.concat(fieldName, ".")
     }
 
     if (!name.startsWith(name[0].toUpperCase())) {
-        return "Please capitalize " + fieldName
-    };
+        return Messages.nameCapitalize.concat(fieldName, ".")
+    }
 
     return ""
 }
