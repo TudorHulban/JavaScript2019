@@ -18,7 +18,7 @@ export function ValidateName(fieldName, name) {
         return Messages.nameShort.concat(fieldName, ".")
     }
 
-    if (!name.startsWith(name[0].toUpperCase())) {
+    if (name[0] != name[0].toUpperCase()) {
         return Messages.nameCapitalize.concat(fieldName, ".")
     }
 
