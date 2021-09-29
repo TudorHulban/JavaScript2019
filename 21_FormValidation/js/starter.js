@@ -15,7 +15,7 @@ function validate() {
 
         if (v.length > 0) {
             console.log(el[i].id, "needs validation")
-            const msgValidation = assignValidator(v, el[i].id, el[i].value)
+            const msgValidation = assignValidator(v, el[i].id, el[i].value.trim())
 
             if (msgValidation.length > 0) {
                 messages.push(msgValidation)
