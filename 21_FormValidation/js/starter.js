@@ -1,4 +1,4 @@
-import { ValidateName, ValidateEmail, ULMessages } from "./model_validator.js"
+import { ValidateName, ValidateEmail, ValidatePassword, ULMessages } from "./model_validator.js"
 
 document.getElementById("btnSubmit").onclick = validate;
 
@@ -35,5 +35,7 @@ function assignValidator(validationType, fieldName, val) {
             return ValidateName(fieldName, val);
         case "email":
             return ValidateEmail(fieldName, val);
+        case "password":
+            return ValidatePassword(fieldName, val);
     }
 }

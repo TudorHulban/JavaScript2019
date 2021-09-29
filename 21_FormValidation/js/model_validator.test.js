@@ -1,6 +1,7 @@
 const rewire = require("rewire")
 const model_validator = rewire("./model_validator")
 const commonValidations = model_validator.__get__("commonValidations")
+const containsChar = model_validator.__get__("containsChar")
 // @ponicode
 describe("model_validator.ValidateName", () => {
     test("0", () => {
@@ -48,5 +49,23 @@ describe("commonValidations", () => {
     test("3", () => {
         let result = commonValidations("fName", "a a")
         expect(result).toBe("Input has spaces in fName.")
+    })
+})
+
+// @ponicode
+describe("containsChar", () => {
+    test("0", () => {
+        let result = containsChar("@", "@")
+        expect(result).toEqual({ contains: true })
+    })
+
+    test("1", () => {
+        let result = containsChar("@@@@@@@@", "@")
+        expect(result).toEqual({ contains: true })
+    })
+
+    test("2", () => {
+        let result = containsChar("111", "0123456789")
+        expect(result).toEqual({ contains: true, value: "1" })
     })
 })

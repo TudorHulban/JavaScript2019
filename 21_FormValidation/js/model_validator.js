@@ -4,7 +4,9 @@ const Messages = Object({
     tooShort: "Value too short for ",
     noCapitalize: "No capitalization for ",
     hasSpecialChar: "Value has special characters for ",
+    noSpecialChar: "Value has no special characters for ",
     hasNumber: "Input has numbers in ",
+    noNumber: "Input has no numbers in ",
     hasSpace: "Input has spaces in ",
     noMonkeyTail: "Value missing @ in ",
     noDomain: "Value is not valid for ",
@@ -64,14 +66,41 @@ export function ValidateEmail(fieldName, name) {
     }
 
     const hasMonkeyTail = containsChar(name, "@")
-    if (!hasMonkeyTail.contains){
+    if (!hasMonkeyTail.contains) {
         return Messages.noMonkeyTail.concat(fieldName, ".")
     }
 
     const hasDomain = containsChar(name, ".")
-    if (!hasDomain.contains){
+    if (!hasDomain.contains) {
         return Messages.noDomain.concat(fieldName, ".")
     }
+
+    return ""
+}
+
+export function ValidatePassword(fieldName, string) {
+    const commonValids = commonValidations(fieldName, string);
+    if (commonValids.length > 0) {
+        return commonValids
+    }
+
+    const minPassLength = 8;
+    if (string.length < minPassLength) {
+        return Messages.tooShort.concat(fieldName, " (minimum " + minPassLength + ")", ".")
+    }
+
+    const hasSpecial = containsChar(string, specialChars)
+    if (!hasSpecial.contains) {
+        return Messages.noSpecialChar.concat(fieldName, ".")
+    }
+
+    const hasNumbers = containsChar(string, numberChar)
+   
+    if (!hasNumbers.contains) {
+        return Messages.noNumber.concat(fieldName, ".")
+    }
+
+    return ""
 }
 
 export function ULMessages(appendTo, messages) {
