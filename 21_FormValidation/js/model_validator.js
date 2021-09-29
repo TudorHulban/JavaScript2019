@@ -6,12 +6,14 @@ const Messages = Object({
     hasSpecialChar: "Value has special characters for ",
     hasNumber: "Input has numbers in ",
     hasSpace: "Input has spaces in ",
+    noMonkeyTail: "Value missing @ in ",
+    noDomain: "Value is not valid for ",
 });
 
 var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
 var numberChar = "0123456789";
 
-function comonValidations(fieldName, string) {
+function commonValidations(fieldName, string) {
     if (string === undefined) {
         return Messages.isUndefined.concat(fieldName, ".")
     }
@@ -29,7 +31,7 @@ function comonValidations(fieldName, string) {
 }
 
 export function ValidateName(fieldName, name) {
-    const commonValids = comonValidations(fieldName, name);
+    const commonValids = commonValidations(fieldName, name);
     if (commonValids.length > 0) {
         return commonValids
     }
@@ -56,9 +58,19 @@ export function ValidateName(fieldName, name) {
 }
 
 export function ValidateEmail(fieldName, name) {
-    const commonValids = comonValidations(fieldName, name);
+    const commonValids = commonValidations(fieldName, name);
     if (commonValids.length > 0) {
         return commonValids
+    }
+
+    const hasMonkeyTail = containsChar(name, "@")
+    if (!hasMonkeyTail.contains){
+        return Messages.noMonkeyTail.concat(fieldName, ".")
+    }
+
+    const hasDomain = containsChar(name, ".")
+    if (!hasDomain.contains){
+        return Messages.noDomain.concat(fieldName, ".")
     }
 }
 
@@ -86,6 +98,12 @@ function removeChilds(parent) {
 };
 
 function containsChar(toCheck, inChars) {
+    if (inChars.length == 1) {
+        return {
+            contains: toCheck.indexOf(inChars) != -1
+        }
+    }
+
     for (let i = 0; i < inChars.length; i++) {
         if (toCheck.indexOf(inChars[i]) > -1) {
             return {

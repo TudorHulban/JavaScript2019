@@ -1,6 +1,6 @@
 const rewire = require("rewire")
 const model_validator = rewire("./model_validator")
-const comonValidations = model_validator.__get__("comonValidations")
+const commonValidations = model_validator.__get__("commonValidations")
 // @ponicode
 describe("model_validator.ValidateName", () => {
     test("0", () => {
@@ -10,30 +10,43 @@ describe("model_validator.ValidateName", () => {
 
     test("1", () => {
         let result = model_validator.ValidateName("fName", "george")
-        expect(result).toBe("Please capitalize fName.")
+        expect(result).toBe("No capitalization for fName.")
     })
 })
 
 
 // @ponicode
-describe("comonValidations", () => {
+describe("model_validator.ValidateEmail", () => {
     test("0", () => {
-        let result = comonValidations("fName", "John")
+        let result = model_validator.ValidateEmail("Email", undefined)
+        expect(result).toBe("Value is undefined for Email.")
+    })
+
+    test("1", () => {
+        let result = model_validator.ValidateEmail("Email", "x@")
+        expect(result).toBe("Value is not valid for Email.")
+    })
+})
+
+// @ponicode
+describe("commonValidations", () => {
+    test("0", () => {
+        let result = commonValidations("fName", "John")
         expect(result).toBe("")
     })
 
     test("1", () => {
-        let result = comonValidations("fName", undefined)
+        let result = commonValidations("fName", undefined)
         expect(result).toBe("Value is undefined for fName.")
     })
 
     test("2", () => {
-        let result = comonValidations("fName", "")
+        let result = commonValidations("fName", "")
         expect(result).toBe("Please enter value for fName.")
     })
 
     test("3", () => {
-        let result = comonValidations("fName", "a a")
+        let result = commonValidations("fName", "a a")
         expect(result).toBe("Input has spaces in fName.")
     })
 })
