@@ -1,49 +1,65 @@
 const Messages = Object({
-    nameUndefined: "Name is undefined for ",
-    nameNull: "Please enter name for ",
-    nameShort: "Name too short for ",
-    nameCapitalize: "Please capitalize ",
-    nameSpecialChar: "Please do not include special characters for ",
-    nameNumber: "Please do not include numbers in ",
-    nameHasSpaces: "Please do not include spaces in ",
+    isUndefined: "Value is undefined for ",
+    isNull: "Please enter value for ",
+    tooShort: "Value too short for ",
+    noCapitalize: "No capitalization for ",
+    hasSpecialChar: "Value has special characters for ",
+    hasNumber: "Input has numbers in ",
+    hasSpace: "Input has spaces in ",
 });
 
 var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
 var numberChar = "0123456789";
 
-export function ValidateName(fieldName, name) {
-    if (name === undefined) {
-        return Messages.nameUndefined.concat(fieldName, ".")
+function comonValidations(fieldName, string) {
+    if (string === undefined) {
+        return Messages.isUndefined.concat(fieldName, ".")
     }
 
-    if (name.length == 0) {
-        return Messages.nameNull.concat(fieldName, ".")
+    if (string.length == 0) {
+        return Messages.isNull.concat(fieldName, ".")
     }
 
-    if (name.length == 1) {
-        return Messages.nameShort.concat(fieldName, ".")
-    }
-
-    if (name[0] != name[0].toUpperCase()) {
-        return Messages.nameCapitalize.concat(fieldName, ".")
-    }
-
-    let hasSpaces = name.split(" ")
+    const hasSpaces = string.split(" ")
     if (hasSpaces.length > 1) {
-        return Messages.nameHasSpaces.concat(fieldName, ".")
-    }
-
-    let hasSpecial = containsChar(name, specialChars)
-    if (hasSpecial.contains) {
-        return Messages.nameSpecialChar.concat(fieldName, " (" + hasSpecial.value + ")", ".")
-    }
-
-    let hasNumbers = containsChar(name, numberChar)
-    if (hasNumbers.contains) {
-        return Messages.nameNumber.concat(fieldName, " (" + hasNumbers.value + ")", ".")
+        return Messages.hasSpace.concat(fieldName, ".")
     }
 
     return ""
+}
+
+export function ValidateName(fieldName, name) {
+    const commonValids = comonValidations(fieldName, name);
+    if (commonValids.length > 0) {
+        return commonValids
+    }
+
+    if (name.length == 1) {
+        return Messages.tooShort.concat(fieldName, ".")
+    }
+
+    if (name[0] != name[0].toUpperCase()) {
+        return Messages.noCapitalize.concat(fieldName, ".")
+    }
+
+    const hasSpecial = containsChar(name, specialChars)
+    if (hasSpecial.contains) {
+        return Messages.hasSpecialChar.concat(fieldName, " (" + hasSpecial.value + ")", ".")
+    }
+
+    const hasNumbers = containsChar(name, numberChar)
+    if (hasNumbers.contains) {
+        return Messages.hasNumber.concat(fieldName, " (" + hasNumbers.value + ")", ".")
+    }
+
+    return ""
+}
+
+export function ValidateEmail(fieldName, name) {
+    const commonValids = comonValidations(fieldName, name);
+    if (commonValids.length > 0) {
+        return commonValids
+    }
 }
 
 export function ULMessages(appendTo, messages) {
