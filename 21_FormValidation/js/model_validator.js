@@ -112,11 +112,11 @@ export function ValidatePassword(fieldName, string) {
 }
 
 export function ULMessages(appendTo, messages) {
+    RemoveChilds(appendTo)
+
     let list = document.createElement('ul');
     list.setAttribute("type", "none");
     list.setAttribute("style", "padding-left: 0px; color:rgb(74, 8, 90);");
-
-    RemoveChilds(appendTo)
 
     for (let i = 0; i < messages.length; i++) {
         let li = document.createElement('li');

@@ -2,9 +2,7 @@ import { ValidateName, ValidateEmail, ValidatePassword, ULMessages, RemoveChilds
 
 // INIT
 document.getElementById("btnSubmit").onclick = validateAll;
-
 var messages = []
-
 
 function validateEl(el) {
     const v = el.getAttribute("validation");
