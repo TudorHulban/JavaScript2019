@@ -26,7 +26,10 @@ function validate() {
     if (messages.length > 0) {
         let elMessages = document.getElementById("messages");
         ULMessages(elMessages, messages)
+        return
     }
+
+    signalValid()
 }
 
 function assignValidator(validationType, fieldName, val) {
@@ -38,4 +41,14 @@ function assignValidator(validationType, fieldName, val) {
         case "password":
             return ValidatePassword(fieldName, val);
     }
+}
+
+function signalValid() {
+    let el = document.getElementById("signal")
+    el.classList.add("has-text-success")
+}
+
+function signalNotValid() {
+    let el = document.getElementById("signal")
+    el.classList.remove("has-text-success")
 }

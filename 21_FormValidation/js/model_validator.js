@@ -9,7 +9,7 @@ const Messages = Object({
     noNumber: "Input has no numbers in ",
     hasSpace: "Input has spaces in ",
     noMonkeyTail: "Value missing @ in ",
-    noDomain: "Value is not valid for ",
+    notValid: "Value is not valid for ",
 });
 
 var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
@@ -72,7 +72,14 @@ export function ValidateEmail(fieldName, name) {
 
     const hasDomain = containsChar(name, ".")
     if (!hasDomain.contains) {
-        return Messages.noDomain.concat(fieldName, ".")
+        return Messages.notValid.concat(fieldName, ".")
+    }
+
+    const posMonkey = name.indexOf("@")
+    const posDomain = name.indexOf(".")
+
+    if (posDomain - posMonkey < 1) {
+        return Messages.notValid.concat(fieldName, ".")
     }
 
     return ""
@@ -95,7 +102,7 @@ export function ValidatePassword(fieldName, string) {
     }
 
     const hasNumbers = containsChar(string, numberChar)
-   
+
     if (!hasNumbers.contains) {
         return Messages.noNumber.concat(fieldName, ".")
     }
