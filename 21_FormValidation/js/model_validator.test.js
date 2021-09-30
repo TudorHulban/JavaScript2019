@@ -69,3 +69,21 @@ describe("containsChar", () => {
         expect(result).toEqual({ contains: true, value: "1" })
     })
 })
+
+// @ponicode
+describe("model_validator.ValidatePassword", () => {
+    test("0", () => {
+        let result = model_validator.ValidatePassword("password", "@@@@@@@@@")
+        expect(result).toBe("Input has no numbers in password.")
+    })
+
+    test("1", () => {
+        let result = model_validator.ValidatePassword("password", "@@@@@@@@@1")
+        expect(result).toBe("")
+    })
+
+    test("2", () => {
+        let result = model_validator.ValidatePassword("password", "@@@")
+        expect(result).toBe("Value too short for password (minimum 8).")
+    })
+})

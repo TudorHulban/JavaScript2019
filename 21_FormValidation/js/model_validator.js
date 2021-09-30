@@ -86,6 +86,8 @@ export function ValidateEmail(fieldName, name) {
 }
 
 export function ValidatePassword(fieldName, string) {
+    console.log("password:", string);
+
     const commonValids = commonValidations(fieldName, string);
     if (commonValids.length > 0) {
         return commonValids
@@ -102,7 +104,6 @@ export function ValidatePassword(fieldName, string) {
     }
 
     const hasNumbers = containsChar(string, numberChar)
-
     if (!hasNumbers.contains) {
         return Messages.noNumber.concat(fieldName, ".")
     }
@@ -111,23 +112,23 @@ export function ValidatePassword(fieldName, string) {
 }
 
 export function ULMessages(appendTo, messages) {
-    removeChilds(appendTo)
+    let list = document.createElement('ul');
+    list.setAttribute("type", "none");
+    list.setAttribute("style", "padding-left: 0px; color:rgb(74, 8, 90);");
 
-    let ul = document.createElement('ul');
-    ul.setAttribute("type", "none");
-    ul.setAttribute("style", "padding-left: 0px; color:rgb(74, 8, 90);");
+    RemoveChilds(appendTo)
 
     for (let i = 0; i < messages.length; i++) {
         let li = document.createElement('li');
         li.appendChild(document.createTextNode(messages[i]));
 
-        ul.appendChild(li)
+        list.appendChild(li)
     }
 
-    appendTo.appendChild(ul);
+    appendTo.appendChild(list);
 }
 
-function removeChilds(parent) {
+export function RemoveChilds(parent) {
     while (parent.lastChild) {
         parent.removeChild(parent.lastChild);
     }

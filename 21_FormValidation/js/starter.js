@@ -1,8 +1,10 @@
-import { ValidateName, ValidateEmail, ValidatePassword, ULMessages } from "./model_validator.js"
+import { ValidateName, ValidateEmail, ValidatePassword, ULMessages, RemoveChilds } from "./model_validator.js"
 
+// INIT
 document.getElementById("btnSubmit").onclick = validateAll;
 
 var messages = []
+
 
 function validateEl(el) {
     const v = el.getAttribute("validation");
@@ -19,14 +21,6 @@ function validateEl(el) {
             signalNotValid()
         }
     }
-
-    if (messages.length > 0) {
-        let elMessages = document.getElementById("messages");
-        ULMessages(elMessages, messages)
-        return
-    }
-
-    signalValid()
 }
 
 function validateAll() {
@@ -36,6 +30,15 @@ function validateAll() {
     for (let i = 0; i < el.length; i++) {
         validateEl(el[i])
     }
+
+    let elMessages = document.getElementById("messages");
+    if (messages.length > 0) {
+        ULMessages(elMessages, messages)
+        return
+    }
+
+    RemoveChilds(elMessages);
+    signalValid()
 }
 
 function assignValidator(validationType, fieldName, val) {
