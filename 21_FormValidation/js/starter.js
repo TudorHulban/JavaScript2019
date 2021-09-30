@@ -1,25 +1,22 @@
 import { ValidateName, ValidateEmail, ValidatePassword, ULMessages } from "./model_validator.js"
 
-document.getElementById("btnSubmit").onclick = validate;
+document.getElementById("btnSubmit").onclick = validateAll;
 
-function validate() {
-    let messages = []
+var messages = []
 
-    const el = document.getElementById("login").getElementsByTagName("input");
+function validateEl(el) {
+    const v = el.getAttribute("validation");
+    if (v === null) {
+        return
+    }
 
-    for (let i = 0; i < el.length; i++) {
-        const v = el[i].getAttribute("validation")
-        if (v === null) {
-            continue
-        }
+    if (v.length > 0) {
+        console.log(el.id, "needs validation")
+        const msgValidation = assignValidator(v, el.id, el.value.trim())
 
-        if (v.length > 0) {
-            console.log(el[i].id, "needs validation")
-            const msgValidation = assignValidator(v, el[i].id, el[i].value.trim())
-
-            if (msgValidation.length > 0) {
-                messages.push(msgValidation)
-            }
+        if (msgValidation.length > 0) {
+            messages.push(msgValidation)
+            signalNotValid()
         }
     }
 
@@ -30,6 +27,15 @@ function validate() {
     }
 
     signalValid()
+}
+
+function validateAll() {
+    messages = [];
+    const el = document.getElementById("login").getElementsByTagName("input");
+
+    for (let i = 0; i < el.length; i++) {
+        validateEl(el[i])
+    }
 }
 
 function assignValidator(validationType, fieldName, val) {
