@@ -86,8 +86,6 @@ export function ValidateEmail(fieldName, name) {
 }
 
 export function ValidatePassword(fieldName, string) {
-    console.log("password:", string);
-
     const commonValids = commonValidations(fieldName, string);
     if (commonValids.length > 0) {
         return commonValids
