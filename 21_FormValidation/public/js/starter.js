@@ -3,6 +3,7 @@ import { SendFormData } from "./model_comms.js"
 
 // INIT
 document.getElementById("btnSubmit").onclick = validateAllAndSubmit;
+var sandboxURL = "https://hookb.in/kxpYxLGBNGUBjzggjzeY" // https://hookbin.com/
 var messages = []
 
 function validateEl(el) {
@@ -40,7 +41,8 @@ function validateAllAndSubmit() {
     RemoveChilds(elMessages);
     signalValid();
 
-    SendFormData(form, "http://localhost:3000/login")
+    // SendFormData(form, "http://localhost:3000/login")
+    SendFormData(form, sandboxURL)
 }
 
 function assignValidator(validationType, fieldName, val) {

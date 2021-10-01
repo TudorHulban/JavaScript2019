@@ -16,7 +16,7 @@ func main() {
 }
 
 func login(c *fiber.Ctx) error {
-	log.Println("Email:", c.FormValue("Email"))
+	log.Println("body:", string(c.Body()))
 
 	return c.Send(c.Body())
 }
