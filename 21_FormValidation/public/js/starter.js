@@ -41,8 +41,8 @@ function validateAllAndSubmit() {
     RemoveChilds(elMessages);
     signalValid();
 
-    // SendFormData(form, "http://localhost:3000/login")
-    SendFormData(form, sandboxURL)
+    SendFormData(form, "http://localhost:3000/login")
+    // SendFormData(form, sandboxURL)
 }
 
 function assignValidator(validationType, fieldName, val) {
