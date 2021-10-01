@@ -1,17 +1,29 @@
 export function SendFormData(form, url) {
-    const xhr = new XMLHttpRequest();
-   
+    return new Promise(function (resolve, reject) {
+        let xhr = new XMLHttpRequest();
 
-    xhr.addEventListener("load", function (ev) {
-        console.log(ev.target.responseText)
-    })
+        xhr.open("POST", url)
 
-    xhr.addEventListener("error", function (ev) {
-        console.log("error when loading")
-    })
+        xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(xhr.response);
+                return
+            }
+            
+            reject({
+                status: this.status,
+                statusText: xhr.statusText
+            });
+        };
 
-    xhr.open("POST", url)
+        xhr.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: xhr.statusText
+            });
+        };
 
-    const formData = new FormData(form);
-    xhr.send(formData)
+        const formData = new FormData(form);
+        xhr.send(formData)
+    });
 }

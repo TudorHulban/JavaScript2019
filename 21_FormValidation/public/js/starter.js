@@ -3,8 +3,19 @@ import { SendFormData } from "./model_comms.js"
 
 // INIT
 document.getElementById("btnSubmit").onclick = validateAllAndSubmit;
-var sandboxURL = "https://hookb.in/kxpYxLGBNGUBjzggjzeY" // https://hookbin.com/
+// var sandboxURL = "https://hookb.in/kxpYxLGBNGUBjzggjzeY" // https://hookbin.com/
 var messages = []
+
+function assignValidator(validationType, fieldName, val) {
+    switch (validationType) {
+        case "name":
+            return ValidateName(fieldName, val);
+        case "email":
+            return ValidateEmail(fieldName, val);
+        case "password":
+            return ValidatePassword(fieldName, val);
+    }
+}
 
 function validateEl(el) {
     const v = el.getAttribute("validation");
@@ -23,11 +34,17 @@ function validateEl(el) {
     }
 }
 
+async function submit() {
+    const form = document.getElementById("login")
+
+    let serverResp = await SendFormData(form, "http://localhost:3000/login")
+    console.log("server response:", serverResp)
+}
+
 function validateAllAndSubmit() {
     messages = [];
-    const form = document.getElementById("login")
-    const el = form.getElementsByTagName("input");
 
+    const el = document.getElementById("login").getElementsByTagName("input");
     for (let i = 0; i < el.length; i++) {
         validateEl(el[i])
     }
@@ -41,19 +58,7 @@ function validateAllAndSubmit() {
     RemoveChilds(elMessages);
     signalValid();
 
-    SendFormData(form, "http://localhost:3000/login")
-    // SendFormData(form, sandboxURL)
-}
-
-function assignValidator(validationType, fieldName, val) {
-    switch (validationType) {
-        case "name":
-            return ValidateName(fieldName, val);
-        case "email":
-            return ValidateEmail(fieldName, val);
-        case "password":
-            return ValidatePassword(fieldName, val);
-    }
+    submit()
 }
 
 function signalValid() {
