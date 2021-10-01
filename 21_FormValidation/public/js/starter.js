@@ -1,7 +1,8 @@
 import { ValidateName, ValidateEmail, ValidatePassword, ULMessages, RemoveChilds } from "./model_validator.js"
+import { SendFormData } from "./model_comms.js"
 
 // INIT
-document.getElementById("btnSubmit").onclick = validateAll;
+document.getElementById("btnSubmit").onclick = validateAllAndSubmit;
 var messages = []
 
 function validateEl(el) {
@@ -21,9 +22,10 @@ function validateEl(el) {
     }
 }
 
-function validateAll() {
+function validateAllAndSubmit() {
     messages = [];
-    const el = document.getElementById("login").getElementsByTagName("input");
+    const form = document.getElementById("login")
+    const el = form.getElementsByTagName("input");
 
     for (let i = 0; i < el.length; i++) {
         validateEl(el[i])
@@ -36,7 +38,9 @@ function validateAll() {
     }
 
     RemoveChilds(elMessages);
-    signalValid()
+    signalValid();
+
+    SendFormData(form, "http://localhost:3000/login")
 }
 
 function assignValidator(validationType, fieldName, val) {
