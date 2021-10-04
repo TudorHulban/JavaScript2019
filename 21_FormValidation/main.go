@@ -7,7 +7,8 @@ import (
 )
 
 type Authorization struct {
-	SessionID int64
+	SessionID           int64 `json:"sessionid"`
+	ValidityMiliSeconds int64 `json:"validity"`
 }
 
 type Authentication struct {
@@ -34,7 +35,8 @@ func login(c *fiber.Ctx) error {
 	log.Println(a)
 
 	r := Authorization{
-		SessionID: 1234567890,
+		SessionID:           1234567890,
+		ValidityMiliSeconds: 100 * 1000,
 	}
 
 	return c.JSON(r)

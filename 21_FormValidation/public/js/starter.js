@@ -39,6 +39,13 @@ async function submit() {
 
     let serverResp = await SendFormData(form, "http://localhost:3000/login")
     console.log("server response:", serverResp)
+
+    let response = JSON.parse(serverResp)
+
+    // succesfull authentication
+    let storage = window.localStorage;
+    storage.setItem("sessionID", response.sessionid);
+    storage.setItem("validTo", Date.now() + response.validity);
 }
 
 function validateAllAndSubmit() {
