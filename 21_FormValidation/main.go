@@ -21,6 +21,7 @@ func main() {
 
 	app.Static("/", "./public")
 	app.Post("/login", login)
+	app.Get("/restricted/:sessionID", admin)
 
 	log.Fatal(app.Listen(":3000"))
 }
@@ -40,4 +41,10 @@ func login(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(r)
+}
+
+func admin(c *fiber.Ctx) error {
+	log.Println("Session ID:", c.Params("sessionID"))
+
+	return c.SendString("authorized")
 }

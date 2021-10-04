@@ -46,6 +46,8 @@ async function submit() {
     let storage = window.localStorage;
     storage.setItem("sessionID", response.sessionid);
     storage.setItem("validTo", Date.now() + response.validity);
+
+    window.location = "http://localhost:3000/restricted/" + response.sessionid;
 }
 
 function validateAllAndSubmit() {
