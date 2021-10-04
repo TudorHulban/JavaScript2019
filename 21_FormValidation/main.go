@@ -38,7 +38,7 @@ func login(c *fiber.Ctx) error {
 
 	r := Authorization{
 		SessionID:           1234567890,
-		ValidityMiliSeconds: 1 * 1000,
+		ValidityMiliSeconds: 10 * 1000,
 	}
 
 	return c.JSON(r)
