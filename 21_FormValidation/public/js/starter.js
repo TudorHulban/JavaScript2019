@@ -37,8 +37,19 @@ function validateEl(el) {
 async function submit() {
     const form = document.getElementById("login")
 
-    let serverResp = await SendFormData(form, "http://localhost:3000/login")
+    let serverResp = await SendFormData(form, "http://localhost:3000/login").catch((err) => {
+        // console.error("Error: ", err);
+
+        messages.push("Server error.")
+        let elMessages = document.getElementById("messages");
+        ULMessages(elMessages, messages)
+    });
+
     console.log("server response:", serverResp)
+
+    if (serverResp === undefined) {
+        return
+    }
 
     let response = JSON.parse(serverResp)
 

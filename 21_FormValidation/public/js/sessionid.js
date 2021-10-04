@@ -14,5 +14,5 @@
         window.location = "http://localhost:3000"
     }
 
-    console.log("session ID valid another:", Number(validTo) - Date.now())
+    console.log("session ID valid another:", Number(validTo) - Date.now(), " miliseconds.")
 })()
