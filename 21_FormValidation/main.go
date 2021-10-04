@@ -21,6 +21,7 @@ func main() {
 
 	app.Static("/", "./public")
 	app.Post("/login", login)
+	app.Get("/restricted", checkSessionID)
 	app.Get("/restricted/:sessionID", admin)
 
 	log.Fatal(app.Listen(":3000"))
@@ -37,14 +38,22 @@ func login(c *fiber.Ctx) error {
 
 	r := Authorization{
 		SessionID:           1234567890,
-		ValidityMiliSeconds: 100 * 1000,
+		ValidityMiliSeconds: 1 * 1000,
 	}
 
 	return c.JSON(r)
 }
 
+func checkSessionID(c *fiber.Ctx) error {
+	// JS to check local storage.
+	// if still valid session ID to redirect.
+	// else redirect to login.
+
+	return c.SendFile("./public/sessionid.html")
+}
+
 func admin(c *fiber.Ctx) error {
 	log.Println("Session ID:", c.Params("sessionID"))
 
-	return c.SendString("authorized")
+	return c.SendFile("./public/authorized.html")
 }
