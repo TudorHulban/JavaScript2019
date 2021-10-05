@@ -2,19 +2,25 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type Authorization struct {
-	SessionID           int64 `json:"sessionid"`
-	ValidityMiliSeconds int64 `json:"validity"`
+	SessionID           string `json:"sessionid"`
+	ValidityMiliSeconds int64  `json:"validity"`
 }
 
 type Authentication struct {
 	Email    string `form:"email"`
 	Password string `form:"password"`
 }
+
+var sessionID = "1234567890"
 
 func main() {
 	app := fiber.New()
@@ -23,6 +29,7 @@ func main() {
 	app.Post("/login", login)
 	app.Get("/restricted", checkSessionID)
 	app.Get("/restricted/:sessionID", admin)
+	app.Get("/renew/:sessionID", renewSessionID)
 
 	log.Fatal(app.Listen(":3000"))
 }
@@ -34,10 +41,10 @@ func login(c *fiber.Ctx) error {
 		return err
 	}
 
-	log.Println(a)
+	go log.Println(a)
 
 	r := Authorization{
-		SessionID:           1234567890,
+		SessionID:           sessionID,
 		ValidityMiliSeconds: 10 * 1000,
 	}
 
@@ -53,7 +60,18 @@ func checkSessionID(c *fiber.Ctx) error {
 }
 
 func admin(c *fiber.Ctx) error {
-	log.Println("Session ID:", c.Params("sessionID"))
+	go log.Println("Session ID:", c.Params("sessionID"))
 
 	return c.SendFile("./public/authorized.html")
+}
+
+func renewSessionID(c *fiber.Ctx) error {
+	if strings.HasPrefix(c.Params("sessionID"), sessionID) {
+		return c.JSON(Authorization{
+			SessionID:           sessionID + "-" + strconv.Itoa(int(time.Now().Unix())),
+			ValidityMiliSeconds: 10 * 1000,
+		})
+	}
+
+	return c.SendStatus(http.StatusUnauthorized)
 }
