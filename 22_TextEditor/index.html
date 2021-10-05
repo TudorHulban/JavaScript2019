@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        #editor-container {
+            border: 2px solid #cccccc;
+            display: inline-block;
+        }
+
+        #editor-menu {
+            padding: 10px;
+        }
+
+        #editor-menu button {
+            font-size: 13px;
+            font-family: inherit;
+            font-weight: 500;
+            border: 1px solid #777777;
+            background-color: rgb(216, 224, 194);
+            padding: 5px;
+            margin: 0 10px 0 0;
+        }
+
+        .highight-menu {
+            background-color: #777777 !important;
+            color: white !important;
+        }
+
+        #editor-text {
+            width: 400px;
+            height: 200px;
+            border-top: 1px solid #cccccc;
+            background-color: rgb(241, 245, 232);
+            outline: none;
+            padding: 5px;
+            overflow: auto;
+        }
+
+        #editor-text img {
+            max-width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="editor-container">
+        <div id="editor-menu">
+            <button id="bold-button" title="Bold"><strong>Bold</strong></button>
+            <button id="underline-button" title="Underline"><u>Underline</u></button>
+            <button id="list-button" title="Bullet List">List</button>
+            <button id="submit-button">Submit</button>
+        </div>
+
+        <div id="editor-text" contenteditable="true" spellcheck="false"></div>
+    </div>
+
+    <script>
+        // Bold menu
+        document.querySelector('#bold-button').addEventListener('click', function () {
+            document.execCommand('bold');
+        });
+
+        // Underline menu
+        document.querySelector('#underline-button').addEventListener('click', function () {
+            document.execCommand('underline');
+        });
+
+        // List menu
+        document.querySelector('#list-button').addEventListener('click', function () {
+            document.execCommand('insertUnorderedList');
+        });
+
+        document.getElementById("submit-button").addEventListener('click', function () {
+            const el = document.getElementById("editor-text")
+            console.log(el.innerHTML)
+        });
+
+        // Check menu options to be highlighted on keyup and click event 
+        document.querySelector('#editor-text').addEventListener('keyup', FindCurrentTags);
+        document.querySelector('#editor-text').addEventListener('click', FindCurrentTags);
+
+        function FindCurrentTags() {
+            // Editor container 
+            let editor_element = document.querySelector('#editor-text');
+
+            // No of ranges
+            let num_ranges = window.getSelection().rangeCount;
+
+            // Will hold parent tags of a range
+            let range_parent_tags;
+
+            // Will hold parent tags of all ranges
+            let all_ranges_parent_tags = [];
+
+            // Current menu tags
+            let menu_tags = ['B', 'UL', 'U'];
+
+            // Will hold common tags from all ranges
+            let menu_tags_common = [];
+
+            let start_element,
+                end_element,
+                cur_element;
+
+            // For all ranges
+            for (let i = 0; i < num_ranges; i++) {
+                // Start container of range
+                start_element = window.getSelection().getRangeAt(i).startContainer;
+
+                // End container of range
+                end_element = window.getSelection().getRangeAt(i).endContainer;
+
+                // Will hold parent tags of a range
+                range_parent_tags = [];
+
+                // If starting node and final node are the same
+                if (start_element.isEqualNode(end_element)) {
+                    // If the current element lies inside the editor container then don't consider the range
+                    // This happens when editor container is clicked
+                    if (editor_element.isEqualNode(start_element)) {
+                        all_ranges_parent_tags.push([]);
+                        continue;
+                    }
+
+                    cur_element = start_element.parentNode;
+
+                    // Get all parent tags till editor container    
+                    while (!editor_element.isEqualNode(cur_element)) {
+                        range_parent_tags.push(cur_element.nodeName);
+                        cur_element = cur_element.parentNode;
+                    }
+                }
+
+                // Push tags of current range 
+                all_ranges_parent_tags.push(range_parent_tags);
+            }
+
+            // Find common parent tags for all ranges
+            for (let i = 0; i < menu_tags.length; i++) {
+                let common_tag = 1;
+
+                for (let j = 0; j < all_ranges_parent_tags.length; j++) {
+                    if (all_ranges_parent_tags[j].indexOf(menu_tags[i]) == -1) {
+                        common_tag = -1;
+                        break;
+                    }
+                }
+
+                if (common_tag == 1)
+                    menu_tags_common.push(menu_tags[i]);
+            }
+
+            // Highlight menu for common tags
+            if (menu_tags_common.indexOf('B') != -1)
+                document.querySelector("#bold-button").classList.add("highight-menu");
+            else
+                document.querySelector("#bold-button").classList.remove("highight-menu");
+
+            if (menu_tags_common.indexOf('U') != -1)
+                document.querySelector("#underline-button").classList.add("highight-menu");
+            else
+                document.querySelector("#underline-button").classList.remove("highight-menu");
+
+            if (menu_tags_common.indexOf('UL') != -1)
+                document.querySelector("#list-button").classList.add("highight-menu");
+            else
+                document.querySelector("#list-button").classList.remove("highight-menu");
+        }
+    </script>
+</body>
+
+</html>
